@@ -84,13 +84,13 @@ public class Jamal {
 
         String welcome =
             lineBreak
-            + "Hello! I'm Jamal\n"
-            + "What can I do for you?\n"
+            + "Yo! I'm Jamal\n"
+            + "What can I do for ya?\n"
             + lineEnd;
 
         String exit =
                 lineBreak
-                + "Bye. Hope to see you again soon!\n"
+                + "Catch you later!\n"
                 + lineEnd;
 
         System.out.println(welcome);
@@ -110,7 +110,7 @@ public class Jamal {
 /// list
             if (input.toLowerCase().equals("list")) {
                 System.out.println(
-                        lineBreak + "Here are the tasks in your list:\n");
+                        lineBreak + "Here are your tasks:\n");
                 for (int i = 0; i < taskCounter; i++) {
                     System.out.println(
                             (i + 1) + ". "
@@ -120,7 +120,7 @@ public class Jamal {
                 continue;
             }
 /// mark and unmark
-            if (markRegexPattern.matcher(input.toLowerCase()).matches()) {
+            if (markRegexPattern.matcher(input.toLowerCase()).matches()) { //regex must match specific mark int, and allow mark int extra to bypass i.e mark 20 exam papers
                 int taskNumber = Integer.parseInt(input.split(" ")[1]); //split string to mark and num, parse stringnum to int
                 if (taskNumber > taskCounter) {
                     System.out.println(lineBreak + "Task out of range" + "\n"+ lineEnd);
@@ -128,7 +128,7 @@ public class Jamal {
                     taskList[taskNumber - 1].markAsDone();
                     System.out.println(
                             lineBreak
-                            + "Nice! I've marked this task as done:\n"
+                            + "Solid work! I've marked this task as done:\n"
                             + taskList[taskNumber - 1].toString() + "\n"
                             + lineEnd
                     );
@@ -138,30 +138,34 @@ public class Jamal {
             if (unmarkRegexPattern.matcher(input.toLowerCase()).matches()) {
                 int taskNumber = Integer.parseInt(input.split(" ")[1]);
                 if (taskNumber > taskCounter) {
-                    System.out.println(lineBreak + "Task out of range" + "\n" + lineEnd);
+                    System.out.println(lineBreak + "Task out of range, you don't have that many yet... try smaller haha" + "\n" + lineEnd);
                 } else {
                     taskList[taskNumber - 1].markAsUndone();
                     System.out.println(
                             lineBreak
-                                    + "OK, I've marked this task as not done yet:\n"
+                                    + "Aite bet, I've marked this task as not done yet:\n"
                                     + taskList[taskNumber - 1].toString() + "\n"
                                     + lineEnd
                     );
                 }
                 continue;
             }
-///todoo task
+///todo task
             if (input.toLowerCase().startsWith("todo")) {
-                String toDoDescription = input.split("\\s+", 2)[1]; //split two parts, toodoo and rem string
-                taskList[taskCounter] = new ToDo(toDoDescription);
-                taskCounter++;
-                System.out.println(
-                        lineBreak
-                        + "Got it. I've added this task:\n"
-                        + taskList[taskCounter - 1].toString() + "\n"
-                        + "Now you have " + taskCounter + " tasks in the list." + "\n"
-                        + lineEnd
-                );
+                try {
+                    String toDoDescription = input.split("\\s+", 2)[1]; //split two parts, todo and rem string
+                    taskList[taskCounter] = new ToDo(toDoDescription);
+                    taskCounter++;
+                    System.out.println(
+                            lineBreak
+                                    + "Gotcha. I've added this task:\n"
+                                    + taskList[taskCounter - 1].toString() + "\n"
+                                    + "Now you've got' " + taskCounter + " tasks in the list." + "\n"
+                                    + lineEnd
+                    );
+                } catch (Exception e) {
+                    System.out.println(lineBreak + "Invalid todo format, use: todo {description}\n" + lineEnd);
+                }
                 continue;
             }
 ///deadline task
@@ -173,9 +177,9 @@ public class Jamal {
                     taskCounter++;
                     System.out.println(
                             lineBreak
-                                    + "Got it. I've added this task:\n"
+                                    + "Gotcha. I've added this task:\n"
                                     + taskList[taskCounter - 1].toString() + "\n"
-                                    + "Now you have " + taskCounter + " tasks in the list." + "\n"
+                                    + "Now you've got' " + taskCounter + " tasks in the list." + "\n"
                                     + lineEnd
                     );
                 } catch (Exception e) {
@@ -193,9 +197,9 @@ public class Jamal {
                     taskCounter++;
                     System.out.println(
                             lineBreak
-                            + "Got it. I've added this task:\n"
+                            + "Gotcha. I've added this task:\n"
                             + taskList[taskCounter - 1].toString() + "\n"
-                            + "Now you have " + taskCounter + " tasks in the list." + "\n"
+                            + "Now you've got' " + taskCounter + " tasks in the list." + "\n"
                             + lineEnd
                     );
                 } else {
@@ -203,13 +207,11 @@ public class Jamal {
                 }
                 continue;
             }
-///add tasks basic
+///invalid prompt
             System.out.println(
                     lineBreak
-                    + "added: " + input + "\n"
+                    + "Buddy I have no clue what you are on about...\n"
                     + lineEnd);
-            taskList[taskCounter] = new Task(input); //put input into array first
-            taskCounter++; //maintain a global counter
         }
         scanner.close(); //release system resources
         System.out.println(exit);

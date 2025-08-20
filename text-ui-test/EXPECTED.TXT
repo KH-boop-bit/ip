@@ -1,28 +1,28 @@
 ____________________________________________________________
-Hello! I'm Jamal
-What can I do for you?
+Yo! I'm Jamal
+What can I do for ya?
 ____________________________________________________________
 
 ____________________________________________________________
-Got it. I've added this task:
+Gotcha. I've added this task:
 [T][ ] test statement 1
-Now you have 1 tasks in the list.
+Now you've got' 1 tasks in the list.
 ____________________________________________________________
 
 ____________________________________________________________
-Got it. I've added this task:
+Gotcha. I've added this task:
 [D][ ] test statement 2 (by: time)
-Now you have 2 tasks in the list.
+Now you've got' 2 tasks in the list.
 ____________________________________________________________
 
 ____________________________________________________________
-Got it. I've added this task:
+Gotcha. I've added this task:
 [E][ ] test statement 3 (from: time to: time)
-Now you have 3 tasks in the list.
+Now you've got' 3 tasks in the list.
 ____________________________________________________________
 
 ____________________________________________________________
-Here are the tasks in your list:
+Here are your tasks:
 
 1. [T][ ] test statement 1
 
@@ -33,17 +33,17 @@ Here are the tasks in your list:
 ____________________________________________________________
 
 ____________________________________________________________
-Nice! I've marked this task as done:
+Solid work! I've marked this task as done:
 [D][X] test statement 2 (by: time)
 ____________________________________________________________
 
 ____________________________________________________________
-Nice! I've marked this task as done:
+Solid work! I've marked this task as done:
 [E][X] test statement 3 (from: time to: time)
 ____________________________________________________________
 
 ____________________________________________________________
-Here are the tasks in your list:
+Here are your tasks:
 
 1. [T][ ] test statement 1
 
@@ -54,12 +54,12 @@ Here are the tasks in your list:
 ____________________________________________________________
 
 ____________________________________________________________
-OK, I've marked this task as not done yet:
+Aite bet, I've marked this task as not done yet:
 [E][ ] test statement 3 (from: time to: time)
 ____________________________________________________________
 
 ____________________________________________________________
-Here are the tasks in your list:
+Here are your tasks:
 
 1. [T][ ] test statement 1
 
@@ -70,5 +70,5 @@ Here are the tasks in your list:
 ____________________________________________________________
 
 ____________________________________________________________
-Bye. Hope to see you again soon!
+Catch you later!
 ____________________________________________________________
