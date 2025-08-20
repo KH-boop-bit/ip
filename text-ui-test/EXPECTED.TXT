@@ -6,19 +6,19 @@ ____________________________________________________________
 ____________________________________________________________
 Gotcha. I've added this task:
 [T][ ] test statement 1
-Now you've got' 1 tasks in the list.
+Now you've got 1 tasks in the list.
 ____________________________________________________________
 
 ____________________________________________________________
 Gotcha. I've added this task:
 [D][ ] test statement 2 (by: time)
-Now you've got' 2 tasks in the list.
+Now you've got 2 tasks in the list.
 ____________________________________________________________
 
 ____________________________________________________________
 Gotcha. I've added this task:
 [E][ ] test statement 3 (from: time to: time)
-Now you've got' 3 tasks in the list.
+Now you've got 3 tasks in the list.
 ____________________________________________________________
 
 ____________________________________________________________
@@ -66,6 +66,34 @@ Here are your tasks:
 2. [D][X] test statement 2 (by: time)
 
 3. [E][ ] test statement 3 (from: time to: time)
+
+____________________________________________________________
+
+____________________________________________________________
+Sure thing, I've deleted this task:
+[D][X] test statement 2 (by: time)
+____________________________________________________________
+
+____________________________________________________________
+Here are your tasks:
+
+1. [T][ ] test statement 1
+
+2. [E][ ] test statement 3 (from: time to: time)
+
+____________________________________________________________
+
+____________________________________________________________
+Solid work! I've marked this task as done:
+[E][X] test statement 3 (from: time to: time)
+____________________________________________________________
+
+____________________________________________________________
+Here are your tasks:
+
+1. [T][ ] test statement 1
+
+2. [E][X] test statement 3 (from: time to: time)
 
 ____________________________________________________________
 

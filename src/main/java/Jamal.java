@@ -1,4 +1,5 @@
-import java.util.Locale;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Scanner; //import scanner class for inputs
 import java.util.regex.*; //import regex for matching words
 
@@ -81,6 +82,7 @@ public class Jamal {
         Pattern markRegexPattern = Pattern.compile("^mark\\s\\d{1,3}$"); //^ start, $end, \\d digits, \\s space, {} range
         Pattern unmarkRegexPattern = Pattern.compile("^unmark\\s\\d{1,3}$");
         Pattern eventInfoRegexPattern = Pattern.compile("^(.+?)/from(.+?)/to(.+?)$"); //. any char, +? one or more times, () capturing group
+        Pattern deleteRegexPattern = Pattern.compile("delete\\s\\d{1,3}$");
 
         String welcome =
             lineBreak
@@ -89,16 +91,15 @@ public class Jamal {
             + lineEnd;
 
         String exit =
-                lineBreak
-                + "Catch you later!\n"
-                + lineEnd;
+            lineBreak
+            + "Catch you later!\n"
+            + lineEnd;
 
         System.out.println(welcome);
 /// start scanning input
         Scanner scanner = new Scanner(System.in);
 
-        Task[] taskList = new Task[100];
-        int taskCounter = 0; //global counter for number of list items
+        ArrayList<Task> taskList = new ArrayList<>();
 
         while (true) { //keep the while loop active until exit string is executed
             System.out.println(""); //empty string placeholder for input
@@ -111,10 +112,10 @@ public class Jamal {
             if (input.toLowerCase().equals("list")) {
                 System.out.println(
                         lineBreak + "Here are your tasks:\n");
-                for (int i = 0; i < taskCounter; i++) {
+                for (int i = 0; i < taskList.size(); i++) {
                     System.out.println(
-                            (i + 1) + ". "
-                            + taskList[i].toString() + "\n");
+                        (i + 1) + ". "
+                        + taskList.get(i).toString() + "\n");
                 }
                 System.out.println(lineEnd);
                 continue;
@@ -122,46 +123,65 @@ public class Jamal {
 /// mark and unmark
             if (markRegexPattern.matcher(input.toLowerCase()).matches()) { //regex must match specific mark int, and allow mark int extra to bypass i.e mark 20 exam papers
                 int taskNumber = Integer.parseInt(input.split(" ")[1]); //split string to mark and num, parse stringnum to int
-                if (taskNumber > taskCounter) {
+                if (taskNumber > taskList.size()) {
                     System.out.println(lineBreak + "Task out of range" + "\n"+ lineEnd);
                 } else {
-                    taskList[taskNumber - 1].markAsDone();
+                    taskList.get(taskNumber - 1).markAsDone();
                     System.out.println(
-                            lineBreak
-                            + "Solid work! I've marked this task as done:\n"
-                            + taskList[taskNumber - 1].toString() + "\n"
-                            + lineEnd
+                        lineBreak
+                        + "Solid work! I've marked this task as done:\n"
+                        + taskList.get(taskNumber - 1).toString() + "\n"
+                        + lineEnd
                     );
                 }
                 continue;
             }
             if (unmarkRegexPattern.matcher(input.toLowerCase()).matches()) {
                 int taskNumber = Integer.parseInt(input.split(" ")[1]);
-                if (taskNumber > taskCounter) {
+                if (taskNumber > taskList.size()) {
                     System.out.println(lineBreak + "Task out of range, you don't have that many yet... try smaller haha" + "\n" + lineEnd);
                 } else {
-                    taskList[taskNumber - 1].markAsUndone();
+                    taskList.get(taskNumber - 1).markAsUndone();
                     System.out.println(
-                            lineBreak
-                                    + "Aite bet, I've marked this task as not done yet:\n"
-                                    + taskList[taskNumber - 1].toString() + "\n"
-                                    + lineEnd
+                        lineBreak
+                        + "Aite bet, I've marked this task as not done yet:\n"
+                        + taskList.get(taskNumber - 1).toString() + "\n"
+                        + lineEnd
                     );
                 }
                 continue;
             }
+
+///delete
+            if (deleteRegexPattern.matcher(input.toLowerCase()).matches()) {
+                int taskNumber = Integer.parseInt(input.split(" ")[1]);
+                if (taskNumber > taskList.size()) {
+                    System.out.println(lineBreak + "Task out of range, you don't have that many yet... try smaller haha" + "\n" + lineEnd);
+                } else {
+                    Task removal = taskList.get(taskNumber - 1);
+                    taskList.remove(removal);
+                    System.out.println(
+                        lineBreak
+                        + "Sure thing, I've deleted this task:\n"
+                        + removal.toString() + "\n"
+                        + lineEnd
+                    );
+                }
+                continue;
+            }
+
 ///todo task
             if (input.toLowerCase().startsWith("todo")) {
                 try {
                     String toDoDescription = input.split("\\s+", 2)[1]; //split two parts, todo and rem string
-                    taskList[taskCounter] = new ToDo(toDoDescription);
-                    taskCounter++;
+                    ToDo toDoTask = new ToDo(toDoDescription);
+                    taskList.add(toDoTask);
                     System.out.println(
-                            lineBreak
-                                    + "Gotcha. I've added this task:\n"
-                                    + taskList[taskCounter - 1].toString() + "\n"
-                                    + "Now you've got' " + taskCounter + " tasks in the list." + "\n"
-                                    + lineEnd
+                        lineBreak
+                        + "Gotcha. I've added this task:\n"
+                        + toDoTask.toString() + "\n"
+                        + "Now you've got " + taskList.size() + " tasks in the list." + "\n"
+                        + lineEnd
                     );
                 } catch (Exception e) {
                     System.out.println(lineBreak + "Invalid todo format, use: todo {description}\n" + lineEnd);
@@ -173,14 +193,14 @@ public class Jamal {
                 String secondHalfString = input.split("\\s+", 2)[1];
                 try {
                     String[] deadlineInfo = secondHalfString.split("/by"); //single split since info desc is split by /by
-                    taskList[taskCounter] = new Deadline(deadlineInfo[0].trim(), deadlineInfo[1].trim());
-                    taskCounter++;
+                    Deadline deadlineTask = new Deadline(deadlineInfo[0].trim(), deadlineInfo[1].trim());
+                    taskList.add(deadlineTask);
                     System.out.println(
-                            lineBreak
-                                    + "Gotcha. I've added this task:\n"
-                                    + taskList[taskCounter - 1].toString() + "\n"
-                                    + "Now you've got' " + taskCounter + " tasks in the list." + "\n"
-                                    + lineEnd
+                        lineBreak
+                        + "Gotcha. I've added this task:\n"
+                        + deadlineTask.toString() + "\n"
+                        + "Now you've got " + taskList.size() + " tasks in the list." + "\n"
+                        + lineEnd
                     );
                 } catch (Exception e) {
                     System.out.println(lineBreak + "Invalid deadline format, use: {description} /by {time}\n" + lineEnd);
@@ -193,14 +213,14 @@ public class Jamal {
                 String secondHalfString = input.split("\\s+", 2)[1];
                 Matcher eventInfo = eventInfoRegexPattern.matcher(secondHalfString); //refer to eventInfoRegexPattern at top of main, need to split into 3 groups for 3 params
                 if (eventInfo.matches()) {
-                    taskList[taskCounter] = new Event(eventInfo.group(1).trim(), eventInfo.group(2).trim(), eventInfo.group(3).trim()); //group 0 is everything
-                    taskCounter++;
+                    Event eventTask = new Event(eventInfo.group(1).trim(), eventInfo.group(2).trim(), eventInfo.group(3).trim()); //group 0 is everything
+                    taskList.add(eventTask);
                     System.out.println(
-                            lineBreak
-                            + "Gotcha. I've added this task:\n"
-                            + taskList[taskCounter - 1].toString() + "\n"
-                            + "Now you've got' " + taskCounter + " tasks in the list." + "\n"
-                            + lineEnd
+                        lineBreak
+                        + "Gotcha. I've added this task:\n"
+                        + eventTask.toString() + "\n"
+                        + "Now you've got " + taskList.size() + " tasks in the list." + "\n"
+                        + lineEnd
                     );
                 } else {
                     System.out.println(lineBreak + "Invalid event format, use: {description} /from {time} /to {time}\n" + lineEnd);
@@ -209,9 +229,9 @@ public class Jamal {
             }
 ///invalid prompt
             System.out.println(
-                    lineBreak
-                    + "Buddy I have no clue what you are on about...\n"
-                    + lineEnd);
+                lineBreak
+                + "Buddy I have no clue what you are on about...\n"
+                + lineEnd);
         }
         scanner.close(); //release system resources
         System.out.println(exit);
