@@ -24,6 +24,55 @@ public class Jamal {
         public void markAsUndone() {
             this.isDone = false;
         }
+
+        @Override
+        public String toString() {
+            return "[" + this.getStatus() + "] " + description;
+        }
+    }
+
+    public static class ToDo extends Task {
+
+        public ToDo(String description) {
+            super(description);
+        }
+
+        @Override
+        public String toString() {
+            return "[T]" + super.toString();
+        }
+    }
+
+    public static class Deadline extends Task {
+
+        protected String by;
+
+        public Deadline(String description, String by) {
+            super(description);
+            this.by = by;
+        }
+
+        @Override
+        public String toString() {
+            return "[D]" + super.toString() + " (by: " + by + ")";
+        }
+    }
+
+    public static class Event extends Task {
+
+        protected String start;
+        protected String end;
+
+        public Event(String description, String start, String end) {
+            super(description);
+            this.start = start;
+            this.end = end;
+        }
+
+        @Override
+        public String toString() {
+            return "[E]" + super.toString() + " (from: " + start + " to: " + end + ")";
+        }
     }
 
     public static void main(String[] args) {
@@ -31,6 +80,7 @@ public class Jamal {
         String lineEnd = "____________________________________________________________";
         Pattern markRegexPattern = Pattern.compile("^mark\\s\\d{1,3}$"); //^ start, $end, \\d digits, \\s space, {} range
         Pattern unmarkRegexPattern = Pattern.compile("^unmark\\s\\d{1,3}$");
+        Pattern eventInfoRegexPattern = Pattern.compile("^(.+?)/from(.+?)/to(.+?)$"); //. any char, +? one or more times, () capturing group
 
         String welcome =
             lineBreak
@@ -63,9 +113,8 @@ public class Jamal {
                         lineBreak + "Here are the tasks in your list:\n");
                 for (int i = 0; i < taskCounter; i++) {
                     System.out.println(
-                            (i + 1) + ". ["
-                            + taskList[i].getStatus()
-                            + "] " + taskList[i].description + "\n");
+                            (i + 1) + ". "
+                            + taskList[i].toString() + "\n");
                 }
                 System.out.println(lineEnd);
                 continue;
@@ -80,7 +129,7 @@ public class Jamal {
                     System.out.println(
                             lineBreak
                             + "Nice! I've marked this task as done:\n"
-                            + "[X] " + taskList[taskNumber - 1].description + "\n"
+                            + taskList[taskNumber - 1].toString() + "\n"
                             + lineEnd
                     );
                 }
@@ -95,13 +144,66 @@ public class Jamal {
                     System.out.println(
                             lineBreak
                                     + "OK, I've marked this task as not done yet:\n"
-                                    + "[ ] " + taskList[taskNumber - 1].description + "\n"
+                                    + taskList[taskNumber - 1].toString() + "\n"
                                     + lineEnd
                     );
                 }
                 continue;
             }
-/// add tasks
+///todoo task
+            if (input.toLowerCase().startsWith("todo")) {
+                String toDoDescription = input.split("\\s+", 2)[1]; //split two parts, toodoo and rem string
+                taskList[taskCounter] = new ToDo(toDoDescription);
+                taskCounter++;
+                System.out.println(
+                        lineBreak
+                        + "Got it. I've added this task:\n"
+                        + taskList[taskCounter - 1].toString() + "\n"
+                        + "Now you have " + taskCounter + " tasks in the list." + "\n"
+                        + lineEnd
+                );
+                continue;
+            }
+///deadline task
+            if (input.toLowerCase().startsWith("deadline")) {
+                String secondHalfString = input.split("\\s+", 2)[1];
+                try {
+                    String[] deadlineInfo = secondHalfString.split("/by"); //single split since info desc is split by /by
+                    taskList[taskCounter] = new Deadline(deadlineInfo[0].trim(), deadlineInfo[1].trim());
+                    taskCounter++;
+                    System.out.println(
+                            lineBreak
+                                    + "Got it. I've added this task:\n"
+                                    + taskList[taskCounter - 1].toString() + "\n"
+                                    + "Now you have " + taskCounter + " tasks in the list." + "\n"
+                                    + lineEnd
+                    );
+                } catch (Exception e) {
+                    System.out.println(lineBreak + "Invalid deadline format, use: {description} /by {time}\n" + lineEnd);
+                }
+
+                continue;
+            }
+///event task
+            if (input.toLowerCase().startsWith("event")) {
+                String secondHalfString = input.split("\\s+", 2)[1];
+                Matcher eventInfo = eventInfoRegexPattern.matcher(secondHalfString); //refer to eventInfoRegexPattern at top of main, need to split into 3 groups for 3 params
+                if (eventInfo.matches()) {
+                    taskList[taskCounter] = new Event(eventInfo.group(1).trim(), eventInfo.group(2).trim(), eventInfo.group(3).trim()); //group 0 is everything
+                    taskCounter++;
+                    System.out.println(
+                            lineBreak
+                            + "Got it. I've added this task:\n"
+                            + taskList[taskCounter - 1].toString() + "\n"
+                            + "Now you have " + taskCounter + " tasks in the list." + "\n"
+                            + lineEnd
+                    );
+                } else {
+                    System.out.println(lineBreak + "Invalid event format, use: {description} /from {time} /to {time}\n" + lineEnd);
+                }
+                continue;
+            }
+///add tasks basic
             System.out.println(
                     lineBreak
                     + "added: " + input + "\n"
