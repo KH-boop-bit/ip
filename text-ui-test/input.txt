@@ -1,0 +1,10 @@
+todo test statement 1
+deadline test statement 2 /by time
+event test statement 3 /from time /to time
+list
+mark 2
+mark 3
+list
+unmark 3
+list
+bye
