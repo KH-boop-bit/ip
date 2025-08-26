@@ -1,80 +1,9 @@
-import java.lang.reflect.Array;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner; //import scanner class for inputs
 import java.util.regex.*; //import regex for matching words
 
 public class Jamal {
-
-    public static class Task {
-        protected boolean isDone;
-        protected String description;
-
-        public Task(String description) {
-            this.description = description;
-            this.isDone = false;
-        }
-
-        public String getStatus() {
-            return (this.isDone ? "X" : " ");
-        }
-
-        public void markAsDone() {
-            this.isDone = true;
-        }
-
-        public void markAsUndone() {
-            this.isDone = false;
-        }
-
-        @Override
-        public String toString() {
-            return "[" + this.getStatus() + "] " + description;
-        }
-    }
-
-    public static class ToDo extends Task {
-
-        public ToDo(String description) {
-            super(description);
-        }
-
-        @Override
-        public String toString() {
-            return "[T]" + super.toString();
-        }
-    }
-
-    public static class Deadline extends Task {
-
-        protected String by;
-
-        public Deadline(String description, String by) {
-            super(description);
-            this.by = by;
-        }
-
-        @Override
-        public String toString() {
-            return "[D]" + super.toString() + " (by: " + by + ")";
-        }
-    }
-
-    public static class Event extends Task {
-
-        protected String start;
-        protected String end;
-
-        public Event(String description, String start, String end) {
-            super(description);
-            this.start = start;
-            this.end = end;
-        }
-
-        @Override
-        public String toString() {
-            return "[E]" + super.toString() + " (from: " + start + " to: " + end + ")";
-        }
-    }
 
     public static void main(String[] args) {
         String lineBreak = "____________________________________________________________\n";
@@ -96,14 +25,52 @@ public class Jamal {
             + lineEnd;
 
         System.out.println(welcome);
-/// start scanning input
-        Scanner scanner = new Scanner(System.in);
 
+/// check for datafile, create if does not exist
+        String filePath = "data/Jamal.txt";
+        File dataFile = new File(filePath);
+        if (!dataFile.exists()) { //does not yet exist, then create
+            dataFile.getParentFile().mkdir(); //make the data folder if does not yet exist
+            try {
+                if (dataFile.createNewFile()) { //boolean, attempt to create file
+                    System.out.print("Data file Created");
+                } else {
+                    System.out.print("Unable to create data file");
+                    return;
+                }
+            } catch (IOException e) {
+                System.out.print("Unable to create data file");
+                return;
+            }
+        }
+
+/// start scanning input
+        Scanner inputScanner = new Scanner(System.in);
         ArrayList<Task> taskList = new ArrayList<>();
+
+/// copy local data into taskList
+        try {
+            Scanner initScanner = new Scanner(dataFile);
+            while (initScanner.hasNext()) {
+                String[] temp = initScanner.nextLine().split("`"); //` as an uncommon separator
+                String type = temp[0];
+                if (type.equals("T")) {
+                    taskList.add(new ToDo(temp[2]));
+                } else if (type.equals("D")) {
+                    taskList.add(new Deadline(temp[2], temp[3]));
+                } else { //event "E"
+                    taskList.add(new Event(temp[2], temp[3], temp[4]));
+                }
+            }
+            initScanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.print("Unable to find file");
+            return;
+        }
 
         while (true) { //keep the while loop active until exit string is executed
             System.out.println(""); //empty string placeholder for input
-            String input = scanner.nextLine();
+            String input = inputScanner.nextLine();
 /// exit
             if (input.toLowerCase().equals("bye")) { //ignorecase so all Bye bye works
                 break;
@@ -133,6 +100,7 @@ public class Jamal {
                         + taskList.get(taskNumber - 1).toString() + "\n"
                         + lineEnd
                     );
+                    FileWrite.markLine(filePath, true,taskNumber - 1);
                 }
                 continue;
             }
@@ -148,6 +116,7 @@ public class Jamal {
                         + taskList.get(taskNumber - 1).toString() + "\n"
                         + lineEnd
                     );
+                    FileWrite.markLine(filePath, false,taskNumber - 1);
                 }
                 continue;
             }
@@ -166,6 +135,7 @@ public class Jamal {
                         + removal.toString() + "\n"
                         + lineEnd
                     );
+                    FileWrite.deleteLine(filePath, taskNumber - 1);
                 }
                 continue;
             }
@@ -183,6 +153,7 @@ public class Jamal {
                         + "Now you've got " + taskList.size() + " tasks in the list." + "\n"
                         + lineEnd
                     );
+                    FileWrite.addLine(filePath, "T`UM`" + toDoDescription);
                 } catch (Exception e) {
                     System.out.println(lineBreak + "Invalid todo format, use: todo {description}\n" + lineEnd);
                 }
@@ -202,6 +173,7 @@ public class Jamal {
                         + "Now you've got " + taskList.size() + " tasks in the list." + "\n"
                         + lineEnd
                     );
+                    FileWrite.addLine(filePath, "D`UM`" + deadlineInfo[0].trim() + "`" + deadlineInfo[1].trim());
                 } catch (Exception e) {
                     System.out.println(lineBreak + "Invalid deadline format, use: {description} /by {time}\n" + lineEnd);
                 }
@@ -222,6 +194,7 @@ public class Jamal {
                         + "Now you've got " + taskList.size() + " tasks in the list." + "\n"
                         + lineEnd
                     );
+                    FileWrite.addLine(filePath, "E`UM`" + eventInfo.group(1).trim() + "`" + eventInfo.group(2).trim() + "`" + eventInfo.group(3).trim());
                 } else {
                     System.out.println(lineBreak + "Invalid event format, use: {description} /from {time} /to {time}\n" + lineEnd);
                 }
@@ -233,7 +206,7 @@ public class Jamal {
                 + "Buddy I have no clue what you are on about...\n"
                 + lineEnd);
         }
-        scanner.close(); //release system resources
+        inputScanner.close(); //release system resources
         System.out.println(exit);
     }
 }
