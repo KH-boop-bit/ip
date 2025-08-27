@@ -12,10 +12,6 @@ public class Event extends Task {
         this.end = LocalDateTime.parse(end);
     }
 
-
-
-    //make these methods in Task, override accordingly in subclasses i.e task isOngoing is always true, but overridden for event and deadline cus of end
-
     @Override
     public String toString() {
         return "[E]" + super.toString() + " (from: " + DateTime.formatDateTime(start) + " to: " + DateTime.formatDateTime(end) + ")";
