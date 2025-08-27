@@ -1,5 +1,7 @@
+package jamal.task;
+
+import jamal.util.DateTime;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Event extends Task {
 
@@ -30,5 +32,13 @@ public class Event extends Task {
     @Override
     public boolean isOverdue() {
         return DateTime.isOverdue(end);
+    }
+
+    public LocalDateTime getStart() {
+        return this.start;
+    }
+
+    public LocalDateTime getEnd() {
+        return this.end;
     }
 }

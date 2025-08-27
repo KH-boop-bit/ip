@@ -1,4 +1,7 @@
+package jamal.task;
+
 import java.time.LocalDateTime;
+import jamal.util.DateTime;
 
 public class Deadline extends Task {
 
@@ -22,5 +25,9 @@ public class Deadline extends Task {
     @Override
     public boolean isOverdue() {
         return DateTime.isOverdue(by);
+    }
+
+    public LocalDateTime getBy() {
+        return this.by;
     }
 }

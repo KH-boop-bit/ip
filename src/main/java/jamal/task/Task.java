@@ -1,3 +1,5 @@
+package jamal.task;
+
 public class Task {
     protected boolean isDone;
     protected String description;
@@ -30,6 +32,10 @@ public class Task {
 
     public boolean isOverdue() {
         return false;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     @Override

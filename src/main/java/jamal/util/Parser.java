@@ -1,4 +1,13 @@
-import java.time.LocalDateTime;
+package jamal.util;
+
+import jamal.exception.InvalidCommandException;
+import jamal.task.ToDo;
+import jamal.task.Deadline;
+import jamal.task.Event;
+
+import jamal.command.Command;
+import jamal.command.*;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +69,7 @@ public class Parser {
             return new ToDoTaskCommand(toDoTask);
         }
 
-        /// Deadline task
+        /// jamal.task.Deadline task
         if (input.toLowerCase().startsWith("/deadline")) {
             String secondHalfString = input.split("\\s+", 2)[1];
             String[] deadlineInfo = secondHalfString.split("/by"); //single split since info desc is split by /by
@@ -71,7 +80,7 @@ public class Parser {
             }
         }
 
-        /// Event task
+        /// jamal.task.Event task
         if (input.toLowerCase().startsWith("/event")) {
             String secondHalfString = input.split("\\s+", 2)[1];
             Matcher eventInfo = eventInfoRegexPattern.matcher(secondHalfString); //refer to eventInfoRegexPattern at top of main, need to split into 3 groups for 3 params

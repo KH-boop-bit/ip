@@ -1,8 +1,10 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner; //import scanner class for inputs
-import java.util.regex.*; //import regex for matching words
+package jamal.ui;
+
+import jamal.command.Command;
+import jamal.task.TaskList;
+import jamal.util.Parser;
+import jamal.util.Storage;
+
 
 public class Jamal {
 
@@ -37,6 +39,6 @@ public class Jamal {
 
     public static void main(String[] args) {
 
-        new Jamal("data/Jamal.txt").run();
+        new Jamal("data/jamal.ui.Jamal.txt").run();
     }
 }
