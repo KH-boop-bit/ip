@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner; //import scanner class for inputs
 import java.util.regex.*; //import regex for matching words
 
@@ -8,10 +9,10 @@ public class Jamal {
     public static void main(String[] args) {
         String lineBreak = "____________________________________________________________\n";
         String lineEnd = "____________________________________________________________";
-        Pattern markRegexPattern = Pattern.compile("^mark\\s\\d{1,3}$"); //^ start, $end, \\d digits, \\s space, {} range
-        Pattern unmarkRegexPattern = Pattern.compile("^unmark\\s\\d{1,3}$");
+        Pattern markRegexPattern = Pattern.compile("^/mark\\s\\d{1,3}$"); //^ start, $end, \\d digits, \\s space, {} range
+        Pattern unmarkRegexPattern = Pattern.compile("^/unmark\\s\\d{1,3}$");
         Pattern eventInfoRegexPattern = Pattern.compile("^(.+?)/from(.+?)/to(.+?)$"); //. any char, +? one or more times, () capturing group
-        Pattern deleteRegexPattern = Pattern.compile("delete\\s\\d{1,3}$");
+        Pattern deleteRegexPattern = Pattern.compile("/delete\\s\\d{1,3}$");
 
         String welcome =
             lineBreak
@@ -72,19 +73,50 @@ public class Jamal {
             System.out.println(""); //empty string placeholder for input
             String input = inputScanner.nextLine();
 /// exit
-            if (input.toLowerCase().equals("bye")) { //ignorecase so all Bye bye works
+            if (input.toLowerCase().equals("/exit")) {
                 break;
             }
 /// list
-            if (input.toLowerCase().equals("list")) {
-                System.out.println(
-                        lineBreak + "Here are your tasks:\n");
-                for (int i = 0; i < taskList.size(); i++) {
+            if (input.toLowerCase().startsWith("/list")) {
+                String[] listSeq = input.split(" ");
+                if (listSeq.length == 1 && listSeq[0].toLowerCase().equals(("/list"))) {
                     System.out.println(
-                        (i + 1) + ". "
-                        + taskList.get(i).toString() + "\n");
+                            lineBreak + "Here are your tasks:\n");
+                    for (int i = 0; i < taskList.size(); i++) {
+                        System.out.println(
+                                (i + 1) + ". "
+                                        + taskList.get(i).toString() + "\n");
+                    }
+                    System.out.println(lineEnd);
+                    continue;
                 }
-                System.out.println(lineEnd);
+                if (listSeq.length == 2) {
+                    if (listSeq[1].toLowerCase().equals("ongoing")) {
+                        System.out.println(lineBreak + "These are your ongoing tasks:\n");
+                        taskList.stream()
+                                .filter(t -> t.isOngoing())
+                                .forEach(l -> System.out.println(l.toString() + "\n"));
+                        System.out.println(lineEnd);
+                        continue;
+                    }
+                    if (listSeq[1].toLowerCase().equals("upcoming")) {
+                        System.out.println(lineBreak + "These are your upcoming tasks:\n");
+                        taskList.stream()
+                                .filter(t -> t.isUpcoming())
+                                .forEach(l -> System.out.println(l.toString() + "\n"));
+                        System.out.println(lineEnd);
+                        continue;
+                    }
+                    if (listSeq[1].toLowerCase().equals("overdue")) {
+                        System.out.println(lineBreak + "These are your overdued tasks:\n");
+                        taskList.stream()
+                                .filter(t -> t.isOverdue())
+                                .forEach(l -> System.out.println(l.toString() + "\n"));
+                        System.out.println(lineEnd);
+                        continue;
+                    }
+                }
+                System.out.println("Invalid list format, try: /list {ongoing/upcoming/overdue}");
                 continue;
             }
 /// mark and unmark
@@ -141,7 +173,7 @@ public class Jamal {
             }
 
 ///todo task
-            if (input.toLowerCase().startsWith("todo")) {
+            if (input.toLowerCase().startsWith("/todo")) {
                 try {
                     String toDoDescription = input.split("\\s+", 2)[1]; //split two parts, todo and rem string
                     ToDo toDoTask = new ToDo(toDoDescription);
@@ -160,7 +192,7 @@ public class Jamal {
                 continue;
             }
 ///deadline task
-            if (input.toLowerCase().startsWith("deadline")) {
+            if (input.toLowerCase().startsWith("/deadline")) {
                 String secondHalfString = input.split("\\s+", 2)[1];
                 try {
                     String[] deadlineInfo = secondHalfString.split("/by"); //single split since info desc is split by /by
@@ -175,13 +207,13 @@ public class Jamal {
                     );
                     FileWrite.addLine(filePath, "D`UM`" + deadlineInfo[0].trim() + "`" + deadlineInfo[1].trim());
                 } catch (Exception e) {
-                    System.out.println(lineBreak + "Invalid deadline format, use: {description} /by {time}\n" + lineEnd);
+                    System.out.println(lineBreak + "Invalid deadline format, use: {description} /by {yyyy-dd-mmThh:mm:ss}\n" + lineEnd);
                 }
 
                 continue;
             }
 ///event task
-            if (input.toLowerCase().startsWith("event")) {
+            if (input.toLowerCase().startsWith("/event")) {
                 String secondHalfString = input.split("\\s+", 2)[1];
                 Matcher eventInfo = eventInfoRegexPattern.matcher(secondHalfString); //refer to eventInfoRegexPattern at top of main, need to split into 3 groups for 3 params
                 if (eventInfo.matches()) {
@@ -196,7 +228,7 @@ public class Jamal {
                     );
                     FileWrite.addLine(filePath, "E`UM`" + eventInfo.group(1).trim() + "`" + eventInfo.group(2).trim() + "`" + eventInfo.group(3).trim());
                 } else {
-                    System.out.println(lineBreak + "Invalid event format, use: {description} /from {time} /to {time}\n" + lineEnd);
+                    System.out.println(lineBreak + "Invalid event format, use: {description} /from {yyyy-dd-mmThh:mm:ss} /to {yyyy-dd-mmThh:mm:ss}\n" + lineEnd);
                 }
                 continue;
             }
