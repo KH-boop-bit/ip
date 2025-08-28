@@ -2,16 +2,22 @@ package jamal.task;
 
 import jamal.util.DateTime;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 public class Event extends Task {
 
     protected LocalDateTime start;
     protected LocalDateTime end;
 
-    public Event(String description, String start, String end) {
+    public Event(String description, String start, String end) throws DateTimeParseException {
         super(description);
-        this.start = LocalDateTime.parse(start);
-        this.end = LocalDateTime.parse(end);
+        try {
+            this.start = LocalDateTime.parse(start);
+            this.end = LocalDateTime.parse(end);
+        } catch (DateTimeParseException e) {
+            throw e; //prevent creation of event object for snowballing errors
+        }
+
     }
 
     @Override

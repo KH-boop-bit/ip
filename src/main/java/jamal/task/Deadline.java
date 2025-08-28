@@ -1,15 +1,22 @@
 package jamal.task;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+
 import jamal.util.DateTime;
 
 public class Deadline extends Task {
 
     protected LocalDateTime by;
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, String by) throws DateTimeParseException{
         super(description);
-        this.by = LocalDateTime.parse(by);
+        try {
+            this.by = LocalDateTime.parse(by);
+        } catch (DateTimeParseException e) {
+            throw e; //prevent creation of deadline object for snowballing errors
+        }
+
     }
 
     @Override
