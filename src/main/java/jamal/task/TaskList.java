@@ -1,6 +1,5 @@
 package jamal.task;
 
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,6 +120,19 @@ public class TaskList {
                     "Aite bet, I've marked this task as not done yet:\n"
                             + taskList.get(idx).toString() + "\n");
         }
+    }
+
+    /**
+     * Prints task statements from the tasklist that match the input string
+     *
+     * @return Prints statement of tasks that contain the matching string in its description
+     */
+    public void find(String match) {
+        System.out.println("Here are your matching tasks in your list:");
+        taskList.stream()
+                .filter(t -> t.getDescription()
+                        .contains(match))
+                .forEach(t -> System.out.println(t.toString()));
     }
 
     /**

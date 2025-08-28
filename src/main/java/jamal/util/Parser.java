@@ -84,6 +84,16 @@ public class Parser {
             return new DeleteCommand(taskNumber - 1);
         }
 
+        /// Find
+        if (input.toLowerCase().startsWith("/find")) {
+            try {
+                String matchString = input.split("\\s+", 2)[1]; //split into two parts, find and rem string
+                return new FindCommand(matchString);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new InvalidCommandException();
+            }
+        }
+
         /// Todo task
         if (input.toLowerCase().startsWith("/todo")) {
             try {
