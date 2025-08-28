@@ -8,8 +8,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Logic for writing into Files
+ * Mainly to read and write onto Storage
+ */
 public class FileWrite {
 
+    /**
+     * Appends line to the end of file
+     *
+     * @param filePath Pathing for data file to be written on
+     * @param line String to append to the end of data file
+     */
     public static void addLine(String filePath, String line) { //type, mark, desc, by/from, to
         try {
             FileWriter fw = new FileWriter(filePath, true); //append mode, strictly to add new lines
@@ -20,6 +30,13 @@ public class FileWrite {
         }
     }
 
+    /**
+     * Rewrites file with marked line
+     *
+     * @param filePath Pathing for data file to be written on
+     * @param mark True/false value to determine string going into idx line's second value for mark/unmark
+     * @param idx Index of line in data file to be marked/unmarked
+     */
     public static void markLine(String filePath, boolean mark, int idx) {
         try {
             Path path = Paths.get(filePath);
@@ -38,6 +55,12 @@ public class FileWrite {
         }
     }
 
+    /**
+     * Rewrites file after removing line
+     *
+     * @param filePath Pathing for data file to be written on
+     * @param idx Index of line in data file to be removed
+     */
     public static void deleteLine(String filePath, int idx) { //need to delete the whole file and rewrite everything ;-;
         try {
             Path path = Paths.get(filePath);

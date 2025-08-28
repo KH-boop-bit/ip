@@ -1,5 +1,7 @@
 package jamal.util;
 
+import jamal.exception.InvalidCommandException;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,6 +9,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Storage to store filepath to data file for task data
+ */
 public class Storage {
 
     protected String filePath;
@@ -15,6 +20,14 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    /**
+     * Checks if data file exists through filePath
+     * Create new datafile with filepath if file path does not exist
+     * Ensure folder directory is maintained for data
+     * Reads all lines from data file of filepath and organise into a list
+     *
+     * @return List of task data strings
+     */
     public List<String> load() { //give a list of task strings
         File dataFile = new File(filePath);
         if (!dataFile.exists()) { //does not yet exist, then create
@@ -38,18 +51,30 @@ public class Storage {
         return List.of(); //return empty list
     }
 
+    /**
+     * Calls on FileWrite to mark line
+     */
     public void markLine(int idx) {
         FileWrite.markLine(this.filePath, true, idx);
     }
 
+    /**
+     * Calls on FileWrite to unmark line
+     */
     public void unmarkLine(int idx) {
         FileWrite.markLine(this.filePath, false,idx);
     }
 
+    /**
+     * Calls on FileWrite to delete line
+     */
     public void deleteLine(int idx) {
         FileWrite.deleteLine(this.filePath, idx);
     }
 
+    /**
+     * Calls on FileWrite to add line
+     */
     public void addLine(String line) {
         FileWrite.addLine(this.filePath, line);
     }

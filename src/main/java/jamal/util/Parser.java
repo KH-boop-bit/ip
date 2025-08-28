@@ -11,8 +11,21 @@ import jamal.command.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Parses user input received from Ui into Commands
+ *
+ * @return Commands dependent on input
+ * @throws InvalidCommandException if input is not of correct format
+ */
 public class Parser {
 
+    /**
+     * Parses user input received from Ui into Commands
+     *
+     * @param input String input to be parsed
+     * @return Commands dependent on input
+     * @throws InvalidCommandException if input is not of correct format
+     */
     public static Command parse(String input) throws InvalidCommandException {
 
         Pattern markRegexPattern = Pattern.compile("^/mark\\s\\d{1,3}$"); //^ start, $end, \\d digits, \\s space, {} range

@@ -4,11 +4,22 @@ import jamal.util.DateTime;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Event Subclass of Task.
+ */
 public class Event extends Task {
 
     protected LocalDateTime start;
     protected LocalDateTime end;
 
+    /**
+     * Event task creation
+     *
+     * @param description Task description
+     * @param start Event start date
+     * @param end Event end date
+     * @throws DateTimeParseException if by is not of parsable date format "yyyy-mm-ddThh:mm:ss"
+     */
     public Event(String description, String start, String end) throws DateTimeParseException {
         super(description);
         try {
@@ -25,16 +36,31 @@ public class Event extends Task {
         return "[E]" + super.toString() + " (from: " + DateTime.formatDateTime(start) + " to: " + DateTime.formatDateTime(end) + ")";
     }
 
+    /**
+     * Overdue method returns true if current date is before by date
+     *
+     * @return true if current date is after start date and before end date, false otherwise
+     */
     @Override
     public boolean isOngoing() {
         return DateTime.isOngoing(start, end);
     }
 
+    /**
+     * Overdue method returns true if current date is before by date
+     *
+     * @return true if current date before start date, false otherwise
+     */
     @Override
     public boolean isUpcoming() {
         return DateTime.isUpcoming(start);
     }
 
+    /**
+     * Overdue method returns true if current date is before by date
+     *
+     * @return true if current date after end date, false otherwise
+     */
     @Override
     public boolean isOverdue() {
         return DateTime.isOverdue(end);
