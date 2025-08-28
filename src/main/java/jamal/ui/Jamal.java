@@ -5,9 +5,18 @@ import jamal.task.TaskList;
 import jamal.util.Parser;
 import jamal.util.Storage;
 
-
+/**
+ * Main App
+ * Run Jamal chatbot from here
+ *
+ */
 public class Jamal {
 
+    /**
+     * Storage stores filepath for task data
+     * Tasklist stores an Arraylist of task to reference
+     * Ui stores methods for input scanning and print statements
+     */
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
@@ -18,6 +27,13 @@ public class Jamal {
         this.tasks = new TaskList(storage.load());
     }
 
+    /**
+     * Runs the program
+     * Initialises Ui scanner for input detection
+     * Converts input into Commands by parsing input
+     * Executes Commands while referencing tasklist, ui and storage
+     *
+     */
     public void run() {
         ui.showWelcome();
         ui.showLine();
@@ -37,6 +53,9 @@ public class Jamal {
         }
     }
 
+    /**
+     * Runs the program
+     */
     public static void main(String[] args) {
 
         new Jamal("data/jamal.ui.Jamal.txt").run();
