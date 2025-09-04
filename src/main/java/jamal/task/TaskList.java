@@ -30,9 +30,10 @@ public class TaskList {
         for (String line : taskDataStrings) {
             String[] temp = line.split("`");
             switch (temp[0]) {
-                case "T" -> this.taskList.add(new ToDo(temp[2]));
-                case "D" -> this.taskList.add(new Deadline(temp[2], temp[3]));
-                case "E" -> this.taskList.add(new Event(temp[2], temp[3], temp[4]));
+            case "T" -> this.taskList.add(new ToDo(temp[2]));
+            case "D" -> this.taskList.add(new Deadline(temp[2], temp[3]));
+            case "E" -> this.taskList.add(new Event(temp[2], temp[3], temp[4]));
+            default -> throw new IllegalArgumentException("Invalid Argument");
             }
         }
 
@@ -41,67 +42,74 @@ public class TaskList {
     /**
      * Lists all tasks in tasklist
      *
-     * @returns print statement of all tasks in tasklist
+     * @return statement of all tasks in tasklist
      */
-    public void list() {
-        System.out.println("Here are your tasks:\n");
+    public String list() {
+        StringBuilder listString = new StringBuilder();
+        listString.append("Here are your tasks:\n");
         for (int i = 0; i < taskList.size(); i++) {
-            System.out.println(
-                    (i + 1) + ". "
-                            + taskList.get(i).toString() + "\n");
+            listString.append(i + 1)
+                    .append(". ")
+                    .append(taskList.get(i).toString())
+                    .append("\n");
         }
+        return listString.toString();
     }
 
     /**
      * Lists all tasks in tasklist that are ongoing
      *
-     * @returns print statement of all tasks in tasklist that are ongoing, dependent on task typing
+     * @return  statement of all tasks in tasklist that are ongoing, dependent on task typing
      */
-    public void listOngoing() {
-        System.out.println("These are your ongoing tasks:\n");
+    public String listOngoing() {
+        StringBuilder listString = new StringBuilder();
+        listString.append("These are your ongoing tasks:\n");
         taskList.stream()
                 .filter(t -> t.isOngoing())
-                .forEach(l -> System.out.println(l.toString() + "\n"));
+                .forEach(t -> listString.append(t).append("\n"));
+        return listString.toString();
     }
 
     /**
      * Lists all tasks in tasklist that are upcoming
      *
-     * @returns print statement of all tasks in tasklist that are upcoming, dependent on task typing
+     * @return statement of all tasks in tasklist that are upcoming, dependent on task typing
      */
-    public void listUpcoming() {
-        System.out.println("These are your upcoming tasks:\n");
+    public String listUpcoming() {
+        StringBuilder listString = new StringBuilder();
+        listString.append("These are your upcoming tasks:\n");
         taskList.stream()
                 .filter(t -> t.isUpcoming())
-                .forEach(l -> System.out.println(l.toString() + "\n"));
+                .forEach(t -> listString.append(t).append("\n"));
+        return listString.toString();
     }
 
     /**
      * Lists all tasks in tasklist that are overdue
      *
-     * @returns print statement of all tasks in tasklist that are overdue, dependent on task typing
+     * @return print statement of all tasks in tasklist that are overdue, dependent on task typing
      */
-    public void listOverdue() {
-        System.out.println("These are your overdued tasks:\n");
+    public String listOverdue() {
+        StringBuilder listString = new StringBuilder();
+        listString.append("These are your overdue tasks:\n");
         taskList.stream()
                 .filter(t -> t.isOverdue())
-                .forEach(l -> System.out.println(l.toString() + "\n"));
+                .forEach(t -> listString.append(t).append("\n"));
+        return listString.toString();
     }
 
     /**
      * Marks events in tasklist
      * Updates task as done
      *
-     * @return print statement of task marked
+     * @return statement of task marked
      */
-    public void mark(int idx) {
+    public String mark(int idx) {
         if (idx > taskList.size()) {
-            System.out.println("Task out of range, you don't have that many yet... try smaller haha" + "\n");
+            return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
         } else {
             taskList.get(idx).markAsDone();
-            System.out.println(
-                    "Solid work! I've marked this task as done:\n"
-                            + taskList.get(idx).toString() + "\n");
+            return "Solid work! I've marked this task as done:\n" + taskList.get(idx).toString() + "\n";
         }
     }
 
@@ -109,63 +117,59 @@ public class TaskList {
      * Unmarks events in tasklist
      * Updates task as not done
      *
-     * @return print statement of task unmarked
+     * @return statement of task unmarked
      */
-    public void unmark(int idx) {
+    public String unmark(int idx) {
         if (idx > taskList.size()) {
-            System.out.println("Task out of range, you don't have that many yet... try smaller haha" + "\n");
+            return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
         } else {
             taskList.get(idx).markAsUndone();
-            System.out.println(
-                    "Aite bet, I've marked this task as not done yet:\n"
-                            + taskList.get(idx).toString() + "\n");
+            return "Aite bet, I've marked this task as not done yet:\n" + taskList.get(idx).toString() + "\n";
         }
     }
 
     /**
      * Prints task statements from the tasklist that match the input string
      *
-     * @return Prints statement of tasks that contain the matching string in its description
+     * @return statement of tasks that contain the matching string in its description
      */
-    public void find(String match) {
-        System.out.println("Here are your matching tasks in your list:");
+    public String find(String match) {
+        StringBuilder listString = new StringBuilder();
+        listString.append("Here are your matching tasks in your list:\n");
         taskList.stream()
                 .filter(t -> t.getDescription()
                         .contains(match))
-                .forEach(t -> System.out.println(t.toString()));
+                .forEach(t -> listString.append(t).append("\n"));
+        return listString.toString();
     }
 
     /**
      * Deletes events in tasklist
      *
-     * @return print statement of deleted task
+     * @return statement of deleted task
      */
-    public void delete(int idx) {
+    public String delete(int idx) {
         if (idx > taskList.size()) {
-            System.out.println("Task out of range, you don't have that many yet... try smaller haha" + "\n");
+            return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
         } else {
             Task removal = taskList.get(idx);
             taskList.remove(removal);
-            System.out.println(
-                    "Sure thing, I've deleted this task:\n"
-                            + removal.toString() + "\n");
+            return "Sure thing, I've deleted this task:\n" + removal.toString() + "\n";
         }
     }
 
     /**
      * Adds events into tasklist
      *
-     * @return print statement of added task
+     * @return statement of added task
      */
-    public void addTask(Task task) {
+    public String addTask(Task task) {
         try {
             taskList.add(task);
-            System.out.println(
-                    "Gotcha. I've added this task:\n"
-                            + task.toString() + "\n"
-                            + "Now you've got " + taskList.size() + " tasks in the list." + "\n");
+            return "Gotcha. I've added this task:\n" + task.toString() + "\n"
+                            + "Now you've got " + taskList.size() + " tasks in the list." + "\n";
         } catch (Exception e) {
-            System.out.println("Invalid format");
+            return "Invalid command, please try again!";
         }
 
     }

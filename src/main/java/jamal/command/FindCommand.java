@@ -22,11 +22,11 @@ public class FindCommand extends Command {
      * Finds tasks with description containing match
      *
      * @param taskList Tasklist that contains an Arraylist of tasks
-     * @param ui User interface for print statements
      * @param storage Stores data and allow read write operations on it
+     * @return String of actionable
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
-        taskList.find(this.match);
+    public String execute(TaskList taskList, Storage storage) {
+        return taskList.find(this.match);
     }
 }

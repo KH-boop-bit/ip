@@ -65,5 +65,11 @@ public class Ui {
         System.out.println(message);
     }
 
+    /**
+     * Prints message body
+     */
+    public void showMessage(String message) {
+        System.out.println(message);
+    }
 
 }

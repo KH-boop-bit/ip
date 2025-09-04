@@ -13,11 +13,11 @@ public class ListCommand extends Command {
      * Executes Command on TaskList
      *
      * @param taskList Tasklist that contains an Arraylist of tasks
-     * @param ui User interface for print statements
      * @param storage Stores data and allow read write operations on it
+     * @return String of actionable
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
-        taskList.list();
+    public String execute(TaskList taskList, Storage storage) {
+        return taskList.list();
     }
 }
