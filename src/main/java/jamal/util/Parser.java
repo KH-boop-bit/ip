@@ -1,15 +1,26 @@
 package jamal.util;
 
-import jamal.exception.InvalidCommandException;
-import jamal.task.ToDo;
-import jamal.task.Deadline;
-import jamal.task.Event;
-
-import jamal.command.Command;
-import jamal.command.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import jamal.command.Command;
+import jamal.command.DeadlineTaskCommand;
+import jamal.command.DeleteCommand;
+import jamal.command.EventTaskCommand;
+import jamal.command.ExitCommand;
+import jamal.command.FindCommand;
+import jamal.command.ListCommand;
+import jamal.command.ListOngoingCommand;
+import jamal.command.ListOverdueCommand;
+import jamal.command.ListUpcomingCommand;
+import jamal.command.MarkCommand;
+import jamal.command.ToDoTaskCommand;
+import jamal.command.UnmarkCommand;
+import jamal.exception.InvalidCommandException;
+import jamal.task.Deadline;
+import jamal.task.Event;
+import jamal.task.ToDo;
 
 /**
  * Parses user input received from Ui into Commands
@@ -28,33 +39,32 @@ public class Parser {
      */
     public static Command parse(String input) throws InvalidCommandException {
 
-        Pattern markRegexPattern = Pattern.compile("^/mark\\s\\d{1,3}$"); //^ start, $end, \\d digits, \\s space, {} range
-        Pattern unmarkRegexPattern = Pattern.compile("^/unmark\\s\\d{1,3}$");
+        Pattern markRegexPattern = Pattern.compile("^mark\\s\\d{1,3}$"); //^ start, $end, \\d digits, \\s space, {} range
+        Pattern unmarkRegexPattern = Pattern.compile("^unmark\\s\\d{1,3}$");
         Pattern dateTimePattern = Pattern.compile("^\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2}$");
         Pattern eventInfoRegexPattern = Pattern.compile("^(.+?)/from (\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2}) /to (\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2})$"); //. any char, +? one or more times, () capturing group
-        Pattern deleteRegexPattern = Pattern.compile("/delete\\s\\d{1,3}$");
+        Pattern deleteRegexPattern = Pattern.compile("delete\\s\\d{1,3}$");
 
         /// List
-        if (input.toLowerCase().startsWith("/list")) {
+        if (input.toLowerCase().startsWith("list")) {
             String[] listSeq = input.split(" ");
-            if (input.toLowerCase().equals(("/list"))) {
+            if (input.equalsIgnoreCase(("list"))) {
                 return new ListCommand();
             }
             if (listSeq.length == 2) {
-                switch (listSeq[1].toLowerCase()) {
-                    case "ongoing":
-                        return new ListOngoingCommand();
-                    case "upcoming":
-                        return new ListUpcomingCommand();
-                    case "overdue":
-                        return new ListOverdueCommand();
+                if (listSeq[1].equalsIgnoreCase("ongoing")) {
+                    return new ListOngoingCommand();
+                } else if (listSeq[1].equalsIgnoreCase("upcoming")) {
+                    return new ListUpcomingCommand();
+                } else if (listSeq[1].equalsIgnoreCase("overdue")) {
+                    return new ListOverdueCommand();
                 }
             }
             throw new InvalidCommandException();
         }
 
-        /// Exit
-        if (input.toLowerCase().equals("/exit")) {
+        /// Exit: Bye
+        if (input.equalsIgnoreCase("bye")) {
             return new ExitCommand();
         }
         /// Mark
@@ -85,7 +95,7 @@ public class Parser {
         }
 
         /// Find
-        if (input.toLowerCase().startsWith("/find")) {
+        if (input.toLowerCase().startsWith("find")) {
             try {
                 String matchString = input.split("\\s+", 2)[1]; //split into two parts, find and rem string
                 return new FindCommand(matchString);
@@ -95,7 +105,7 @@ public class Parser {
         }
 
         /// Todo task
-        if (input.toLowerCase().startsWith("/todo")) {
+        if (input.toLowerCase().startsWith("todo")) {
             try {
                 String toDoDescription = input.split("\\s+", 2)[1]; //split two parts, todo and rem string
                 ToDo toDoTask = new ToDo(toDoDescription);
@@ -106,7 +116,7 @@ public class Parser {
         }
 
         /// Deadline task
-        if (input.toLowerCase().startsWith("/deadline")) {
+        if (input.toLowerCase().startsWith("deadline")) {
             try {
                 String secondHalfString = input.split("\\s+", 2)[1];
                 String[] deadlineInfo = secondHalfString.split("/by"); //single split since info desc is split by /by
@@ -121,7 +131,7 @@ public class Parser {
         }
 
         /// Event task
-        if (input.toLowerCase().startsWith("/event")) {
+        if (input.toLowerCase().startsWith("event")) {
             try {
                 String secondHalfString = input.split("\\s+", 2)[1];
                 Matcher eventInfo = eventInfoRegexPattern.matcher(secondHalfString); //refer to eventInfoRegexPattern at top of main, need to split into 3 groups for 3 params
@@ -132,8 +142,10 @@ public class Parser {
             } catch (ArrayIndexOutOfBoundsException e) {
                 throw new InvalidCommandException();
             }
+            throw new InvalidCommandException();
+        } else {
+            throw new InvalidCommandException();
         }
 
-    throw new InvalidCommandException();
     }
 }

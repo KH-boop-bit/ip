@@ -20,12 +20,13 @@ public class DeleteCommand extends Command {
      * Deletes line at idx line in datafile and rewrites the whole Storage file
      *
      * @param taskList Tasklist that contains an Arraylist of tasks
-     * @param ui User interface for print statements
      * @param storage Stores data and allow read write operations on it
+     * @return String of actionable
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
-        taskList.delete(this.idx);
+    public String execute(TaskList taskList, Storage storage) {
+        String result = taskList.delete(this.idx);
         storage.deleteLine(this.idx);
+        return result;
     }
 }

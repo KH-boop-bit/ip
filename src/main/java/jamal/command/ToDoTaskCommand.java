@@ -21,12 +21,13 @@ public class ToDoTaskCommand extends Command {
      * Writes an unmarked Todo data into Storage
      *
      * @param taskList Tasklist that contains an Arraylist of tasks
-     * @param ui User interface for print statements
      * @param storage Stores data and allow read write operations on it
+     * @return String of actionable
      */
     @Override
-    public void execute(TaskList taskList, Ui ui, Storage storage) {
-        taskList.addTask(task);
+    public String execute(TaskList taskList, Storage storage) {
+        String result = taskList.addTask(task);
         storage.addLine("T`UM`" + task.getDescription());
+        return result;
     }
 }

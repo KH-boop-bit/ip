@@ -21,8 +21,10 @@ public class Jamal {
     private TaskList tasks;
     private Ui ui;
 
-    public Jamal(String filePath) {
-        this.ui = new Ui();
+    public Jamal(String filePath, boolean isGui) {
+        if (!isGui) {
+            this.ui = new Ui();
+        }
         this.storage = new Storage(filePath);
         this.tasks = new TaskList(storage.load());
     }
@@ -43,7 +45,7 @@ public class Jamal {
                 String fullCommand = ui.readCommand();
                 ui.showLine();
                 Command c = Parser.parse(fullCommand);
-                c.execute(tasks, ui, storage);
+                ui.showMessage(c.execute(tasks, storage));
                 isExit = c.isExit();
             } catch (Exception e) {
                 ui.showError(e.getMessage());
@@ -54,10 +56,24 @@ public class Jamal {
     }
 
     /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parse(input);
+            if (c.isExit()) {
+                //exit method for GUI here
+            }
+            return c.execute(tasks, storage);
+        } catch (Exception e) {
+            return "Invalid Command, Please try again!";
+        }
+    }
+
+    /**
      * Runs the program
      */
     public static void main(String[] args) {
-
-        new Jamal("data/jamal.ui.Jamal.txt").run();
+        new Jamal("data/jamal.ui.Jamal.txt", false).run();
     }
 }
