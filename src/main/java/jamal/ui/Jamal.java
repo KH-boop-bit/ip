@@ -21,6 +21,11 @@ public class Jamal {
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Construct Jamal instance through filePath
+     * @param filePath datafile of tasks
+     * @param isGui true if using GUI to instantiate, false to use text-UI
+     */
     public Jamal(String filePath, boolean isGui) {
         if (!isGui) {
             this.ui = new Ui();

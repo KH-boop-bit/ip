@@ -3,14 +3,13 @@ package jamal.ui;
 import java.util.Scanner;
 
 /**
- *
  * Initialise Scanner to detect inputs
  * Print statements for Welcome, Exit and Linebreaks
  *
  */
 public class Ui {
 
-    final static String lineBreak = "____________________________________________________________\n";
+    static final String lineBreak = "____________________________________________________________\n";
     protected Scanner inputScanner;
 
 
@@ -23,9 +22,7 @@ public class Ui {
      */
     public void showWelcome() {
         System.out.println(
-                lineBreak +
-                "Yo! I'm Jamal\n" +
-                "What can I do for ya?\n");
+                lineBreak + "Yo! I'm Jamal\n" + "What can I do for ya?\n");
     }
 
     /**

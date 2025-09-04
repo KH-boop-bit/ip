@@ -1,7 +1,5 @@
 package jamal.util;
 
-import jamal.exception.InvalidCommandException;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -78,5 +76,4 @@ public class Storage {
     public void addLine(String line) {
         FileWrite.addLine(this.filePath, line);
     }
-
 }

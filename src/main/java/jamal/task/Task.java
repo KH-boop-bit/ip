@@ -1,7 +1,5 @@
 package jamal.task;
 
-import java.time.format.DateTimeParseException;
-
 /**
  * Task Parent Class to Deadline, Todo and Event
  */

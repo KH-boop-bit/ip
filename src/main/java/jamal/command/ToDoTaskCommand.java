@@ -3,7 +3,6 @@ package jamal.command;
 import jamal.task.Task;
 import jamal.task.TaskList;
 import jamal.util.Storage;
-import jamal.ui.Ui;
 
 /**
  * Deadline Command SubClass for todo task creation

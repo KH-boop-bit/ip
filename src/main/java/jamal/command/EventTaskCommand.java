@@ -4,7 +4,6 @@ import jamal.task.Event;
 import jamal.task.Task;
 import jamal.task.TaskList;
 import jamal.util.Storage;
-import jamal.ui.Ui;
 
 /**
  * Event Command SubClass for event task creation

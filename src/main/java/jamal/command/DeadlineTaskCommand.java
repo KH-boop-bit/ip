@@ -3,7 +3,6 @@ package jamal.command;
 import jamal.task.Deadline;
 import jamal.task.Task;
 import jamal.task.TaskList;
-import jamal.ui.Ui;
 import jamal.util.Storage;
 
 /**

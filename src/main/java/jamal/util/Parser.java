@@ -146,6 +146,5 @@ public class Parser {
         } else {
             throw new InvalidCommandException();
         }
-
     }
 }

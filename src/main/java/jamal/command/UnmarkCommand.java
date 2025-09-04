@@ -2,7 +2,6 @@ package jamal.command;
 
 import jamal.task.TaskList;
 import jamal.util.Storage;
-import jamal.ui.Ui;
 
 /**
  * Unmark Command SubClass for unmarking tasks

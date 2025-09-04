@@ -2,7 +2,6 @@ package jamal.command;
 
 import jamal.task.TaskList;
 import jamal.util.Storage;
-import jamal.ui.Ui;
 
 /**
  * List Overdue Command SubClass for listing tasks
