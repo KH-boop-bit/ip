@@ -66,9 +66,6 @@ public class Jamal {
     public String getResponse(String input) {
         try {
             Command c = Parser.parse(input);
-            if (c.isExit()) {
-                //exit method for GUI here
-            }
             return c.execute(tasks, storage);
         } catch (Exception e) {
             return "Invalid Command, Please try again!";

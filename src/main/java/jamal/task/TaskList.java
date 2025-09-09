@@ -40,7 +40,7 @@ public class TaskList {
     }
 
     /**
-     * Lists all tasks in tasklist
+     * Lists all tasks in tasklist, default by order of insertion
      *
      * @return statement of all tasks in tasklist
      */
@@ -107,12 +107,11 @@ public class TaskList {
     public String mark(int idx) {
         if (idx > taskList.size()) {
             return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
-        } else {
-            Task taskToMark = taskList.get(idx);
-            taskToMark.markAsDone();
-            assert taskToMark.isDone : "Task is not marked";
-            return "Solid work! I've marked this task as done:\n" + taskToMark.toString() + "\n";
         }
+        Task taskToMark = taskList.get(idx);
+        taskToMark.markAsDone();
+        assert taskToMark.isDone : "Task is not marked";
+        return "Solid work! I've marked this task as done:\n" + taskToMark.toString() + "\n";
     }
 
     /**
@@ -124,12 +123,11 @@ public class TaskList {
     public String unmark(int idx) {
         if (idx > taskList.size()) {
             return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
-        } else {
-            Task taskToUnmark = taskList.get(idx);
-            taskToUnmark.markAsUndone();
-            assert !taskToUnmark.isDone : "Task is not unmarked";
-            return "Aite bet, I've marked this task as not done yet:\n" + taskToUnmark.toString() + "\n";
         }
+        Task taskToUnmark = taskList.get(idx);
+        taskToUnmark.markAsUndone();
+        assert !taskToUnmark.isDone : "Task is not unmarked";
+        return "Aite bet, I've marked this task as not done yet:\n" + taskToUnmark.toString() + "\n";
     }
 
     /**
@@ -155,11 +153,10 @@ public class TaskList {
     public String delete(int idx) {
         if (idx > taskList.size()) {
             return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
-        } else {
-            Task removal = taskList.get(idx);
-            taskList.remove(removal);
-            return "Sure thing, I've deleted this task:\n" + removal.toString() + "\n";
         }
+        Task removal = taskList.get(idx);
+        taskList.remove(removal);
+        return "Sure thing, I've deleted this task:\n" + removal.toString() + "\n";
     }
 
     /**
@@ -173,7 +170,7 @@ public class TaskList {
             return "Gotcha. I've added this task:\n" + task.toString() + "\n"
                             + "Now you've got " + taskList.size() + " tasks in the list." + "\n";
         } catch (Exception e) {
-            return "Invalid command, please try again!";
+            return "Unable to add task, please try again!";
         }
 
     }
