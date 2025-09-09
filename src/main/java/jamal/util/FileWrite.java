@@ -19,7 +19,7 @@ public class FileWrite {
      * @param filePath Pathing for data file to be written on
      * @param line String to append to the end of data file
      */
-    public static void addLine(String filePath, String line) { //type, mark, desc, by/from, to
+    public static void addLine(String filePath, String line) { //type, mark, priority, desc, by/from, to
         try {
             FileWriter fw = new FileWriter(filePath, true); //append mode, strictly to add new lines
             fw.write(line + "\n");
@@ -45,6 +45,32 @@ public class FileWrite {
 
             String[] temp = line.split("`");
             temp[1] = mark ? "M" : "UM";
+            String changedLine = String.join("`", temp);
+
+            lines.set(idx, changedLine);
+
+            Files.write(path, lines);
+        } catch (IOException e) {
+            System.out.print("Unable to change data");
+        }
+    }
+
+    /**
+     * Rewrites file with appropriate priority
+     *
+     * @param filePath Pathing for data file to be written on
+     * @param priority number to be rewritten
+     * @param idx Index of line in data file to be prioritized
+     */
+    public static void prioritizeLine(String filePath, String priority, int idx) {
+        try {
+            Path path = Paths.get(filePath);
+            List<String> lines = Files.readAllLines(path);
+            assert idx >= 0 : "idx must be greater than or equal to 0";
+            String line = lines.get(idx);
+
+            String[] temp = line.split("`");
+            temp[2] = priority;
             String changedLine = String.join("`", temp);
 
             lines.set(idx, changedLine);

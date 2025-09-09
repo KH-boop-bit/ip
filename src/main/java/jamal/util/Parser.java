@@ -4,19 +4,7 @@ package jamal.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jamal.command.Command;
-import jamal.command.DeadlineTaskCommand;
-import jamal.command.DeleteCommand;
-import jamal.command.EventTaskCommand;
-import jamal.command.ExitCommand;
-import jamal.command.FindCommand;
-import jamal.command.ListCommand;
-import jamal.command.ListOngoingCommand;
-import jamal.command.ListOverdueCommand;
-import jamal.command.ListUpcomingCommand;
-import jamal.command.MarkCommand;
-import jamal.command.ToDoTaskCommand;
-import jamal.command.UnmarkCommand;
+import jamal.command.*;
 import jamal.exception.InvalidCommandException;
 import jamal.task.Deadline;
 import jamal.task.Event;
@@ -44,6 +32,7 @@ public class Parser {
         Pattern dateTimePattern = Pattern.compile("^\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2}$");
         Pattern eventInfoRegexPattern = Pattern.compile("^(.+?)/from (\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2}) /to (\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2})$"); //. any char, +? one or more times, () capturing group
         Pattern deleteRegexPattern = Pattern.compile("delete\\s\\d{1,3}$");
+        Pattern prioritizeRegexPattern = Pattern.compile("^prioritize\\s\\d{1,3}\\s\\d{1,3}$");
 
         /// List
         if (input.toLowerCase().startsWith("list")) {
@@ -87,6 +76,17 @@ public class Parser {
                 throw new InvalidCommandException();
             }
             return new UnmarkCommand(taskNumber - 1);
+        }
+
+        /// Prioritize
+        if (prioritizeRegexPattern.matcher(input.toLowerCase()).matches()) {
+            String[] priorityInfo = input.split(" ");
+            int taskNumber = Integer.parseInt(priorityInfo[1]);
+            int priority = Integer.parseInt(priorityInfo[2]);
+            if (taskNumber < 1) {
+                throw new InvalidCommandException();
+            }
+            return new PrioritizeCommand(taskNumber - 1, priority);
         }
 
         /// Delete

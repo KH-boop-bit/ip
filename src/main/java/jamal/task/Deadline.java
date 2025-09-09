@@ -28,6 +28,23 @@ public class Deadline extends Task {
         }
     }
 
+    /**
+     * Overloaded Deadline task creation
+     *
+     * @param description Task description
+     * @param priority Priority level
+     * @param by Deadline date
+     * @throws DateTimeParseException if by is not of parsable date format "yyyy-mm-ddThh:mm:ss"
+     */
+    public Deadline(String description, int priority, String by) throws DateTimeParseException{
+        super(description, priority);
+        try {
+            this.by = LocalDateTime.parse(by);
+        } catch (DateTimeParseException e) {
+            throw e; //prevent creation of deadline object for snowballing errors
+        }
+    }
+
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + DateTime.formatDateTime(by) + ")";

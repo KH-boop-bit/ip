@@ -28,12 +28,24 @@ public class TaskList {
     public TaskList(List<String> taskDataStrings) {
         this.taskList = new ArrayList<>();
         for (String line : taskDataStrings) {
-            String[] temp = line.split("`");
-            switch (temp[0]) {
-            case "T" -> this.taskList.add(new ToDo(temp[2]));
-            case "D" -> this.taskList.add(new Deadline(temp[2], temp[3]));
-            case "E" -> this.taskList.add(new Event(temp[2], temp[3], temp[4]));
-            default -> throw new IllegalArgumentException("Invalid Argument");
+            String[] lineInfo = line.split("`");
+            String description = lineInfo[3];
+            int priority = Integer.parseInt(lineInfo[2]);
+            switch (lineInfo[0]) {
+            case "T":
+                Task todoTask = new ToDo(description, priority);
+                this.taskList.add(todoTask);
+                break;
+            case "D":
+                Task deadlineTask = new Deadline(description, priority, lineInfo[4]);
+                this.taskList.add(deadlineTask);
+                break;
+            case "E":
+                Task eventTask = new Event(description, priority, lineInfo[4], lineInfo[5]);
+                this.taskList.add(eventTask);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid Argument");
             }
         }
 
@@ -99,7 +111,7 @@ public class TaskList {
     }
 
     /**
-     * Marks events in tasklist
+     * Marks tasks in tasklist
      * Updates task as done
      *
      * @return statement of task marked
@@ -115,7 +127,7 @@ public class TaskList {
     }
 
     /**
-     * Unmarks events in tasklist
+     * Unmarks tasks in tasklist
      * Updates task as not done
      *
      * @return statement of task unmarked
@@ -131,10 +143,27 @@ public class TaskList {
     }
 
     /**
+     * Prioritizes tasks in tasklist
+     * Updates task with priority number
+     * @param idx line to prioritize
+     * @param priority number to set for priority
+     * @return statement of task prioritized
+     */
+    public String prioritize(int idx, int priority) {
+        if (idx > taskList.size()) {
+            return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
+        }
+        Task taskToPrioritize = taskList.get(idx);
+        taskToPrioritize.setPriority(priority);
+        assert taskToPrioritize.priority == priority : "Task priority mismatch";
+        return "Aite bet, I've set this task with priority " + priority + ":\n"
+                    + taskToPrioritize.toString() + "\n";
+    }
+    /**
      * Prints task statements from the tasklist that match the input string
      *
      * @return statement of tasks that contain the matching string in its description
-     */
+     * */
     public String find(String match) {
         StringBuilder listString = new StringBuilder();
         listString.append("Here are your matching tasks in your list:\n");
@@ -172,6 +201,5 @@ public class TaskList {
         } catch (Exception e) {
             return "Unable to add task, please try again!";
         }
-
     }
 }

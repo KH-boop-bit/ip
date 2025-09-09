@@ -29,7 +29,25 @@ public class Event extends Task {
         } catch (DateTimeParseException e) {
             throw e; //prevent creation of event object for snowballing errors
         }
+    }
 
+    /**
+     * Overloaded Event task creation
+     *
+     * @param description Task description
+     * @param priority Priority level
+     * @param start Event start date
+     * @param end Event end date
+     * @throws DateTimeParseException if by is not of parsable date format "yyyy-mm-ddThh:mm:ss"
+     */
+    public Event(String description, int priority, String start, String end) throws DateTimeParseException {
+        super(description, priority);
+        try {
+            this.start = LocalDateTime.parse(start);
+            this.end = LocalDateTime.parse(end);
+        } catch (DateTimeParseException e) {
+            throw e; //prevent creation of event object for snowballing errors
+        }
     }
 
     @Override

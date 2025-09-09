@@ -28,7 +28,7 @@ public class DeadlineTaskCommand extends Command {
     @Override
     public String execute(TaskList taskList, Storage storage) {
         String result = taskList.addTask(task);
-        storage.addLine("D`UM`" + task.getDescription() + "`" + task.getBy());
+        storage.addLine("D`UM`0`" + task.getDescription() + "`" + task.getBy());
         return result;
     }
 }

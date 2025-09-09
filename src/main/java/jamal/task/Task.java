@@ -10,6 +10,7 @@ public class Task {
      */
     protected boolean isDone;
     protected String description;
+    protected int priority;
 
     /**
      * Task creation
@@ -19,10 +20,34 @@ public class Task {
     public Task(String description) {
         this.description = description;
         this.isDone = false;
+        this.priority = 0;
+    }
+
+    /**
+     * Overloaded method to instantiate a task with priority
+     * @param description Task description
+     * @param priority priority level
+     */
+    public Task(String description, int priority) {
+        this.description = description;
+        this.isDone = false;
+        this.priority = priority;
     }
 
     public String getStatus() {
         return (this.isDone ? "X" : " ");
+    }
+
+    public int getPriority() {
+        return this.priority;
+    }
+
+    /**
+     * Sets the Task's priority with priority parameter
+     * @param priority given by user, higher number corresponds to higher priority
+     */
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     /**
@@ -66,6 +91,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "[" + this.getStatus() + "] " + description;
+        return "[" + this.getStatus() + "][P" + this.getPriority() + "] " + description;
     }
 }

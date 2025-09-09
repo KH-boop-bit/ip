@@ -78,6 +78,14 @@ public class Storage {
     }
 
     /**
+     * Calls on FileWrite to prioritize line
+     */
+    public void prioritizeLine(int idx, int priority) {
+        assert idx >= 0 : "idx must be greater than or equal to 0";
+        FileWrite.prioritizeLine(this.filePath, String.valueOf(priority), idx);
+    }
+
+    /**
      * Calls on FileWrite to delete line
      */
     public void deleteLine(int idx) {

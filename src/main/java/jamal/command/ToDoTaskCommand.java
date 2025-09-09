@@ -26,7 +26,7 @@ public class ToDoTaskCommand extends Command {
     @Override
     public String execute(TaskList taskList, Storage storage) {
         String result = taskList.addTask(task);
-        storage.addLine("T`UM`" + task.getDescription());
+        storage.addLine("T`UM`0`" + task.getDescription());
         return result;
     }
 }

@@ -27,7 +27,7 @@ public class EventTaskCommand extends Command {
     @Override
     public String execute(TaskList taskList, Storage storage) {
         String result = taskList.addTask(task);
-        storage.addLine("E`UM`" + task.getDescription() + "`" + task.getStart() + "`" + task.getEnd());
+        storage.addLine("E`UM`0`" + task.getDescription() + "`" + task.getStart() + "`" + task.getEnd());
         return result;
     }
 }
