@@ -29,16 +29,7 @@ public class Storage {
     public List<String> load() { //give a list of task strings
         File dataFile = new File(filePath);
         if (!dataFile.exists()) { //does not yet exist, then create
-            dataFile.getParentFile().mkdir(); //make the data folder if does not yet exist
-            try {
-                if (dataFile.createNewFile()) { //boolean, attempt to create file
-                    System.out.print("Data file Created\n");
-                } else {
-                    System.out.print("Unable to create data file\n");
-                }
-            } catch (IOException e) {
-                System.out.print("Unable to create data file\n");
-            }
+            createDataFile(dataFile);
         }
         Path path = Paths.get(filePath);
         try {
@@ -47,6 +38,27 @@ public class Storage {
             System.out.println("Unable to read File\n");
         }
         return List.of(); //return empty list
+    }
+
+    /**
+     * Create a datafile with parent directory following file path
+     *
+     * @param dataFile
+     */
+    public void createDataFile(File dataFile) {
+        File parentDir = dataFile.getParentFile();
+        if (parentDir != null) { //guard clause for no parent directory for data file
+            parentDir.mkdirs(); //make parent dir if exists in file path
+        }
+        try {
+            if (dataFile.createNewFile()) { //boolean, attempt to create file
+                System.out.print("Data file created\n");
+            } else {
+                System.err.print("Data file already exists or cannot be created\n");
+            }
+        } catch (IOException e) {
+            System.err.print("Unable to create data file\n");
+        }
     }
 
     /**
@@ -60,7 +72,7 @@ public class Storage {
      * Calls on FileWrite to unmark line
      */
     public void unmarkLine(int idx) {
-        FileWrite.markLine(this.filePath, false,idx);
+        FileWrite.markLine(this.filePath, false, idx);
     }
 
     /**

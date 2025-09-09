@@ -50,23 +50,27 @@ public class Parser {
             String[] listSeq = input.split(" ");
             if (input.equalsIgnoreCase(("list"))) {
                 return new ListCommand();
-            }
-            if (listSeq.length == 2) {
-                if (listSeq[1].equalsIgnoreCase("ongoing")) {
+            } else if (listSeq.length == 2) {
+                switch (listSeq[1].toLowerCase()) {
+                case "ongoing":
                     return new ListOngoingCommand();
-                } else if (listSeq[1].equalsIgnoreCase("upcoming")) {
+                case "upcoming":
                     return new ListUpcomingCommand();
-                } else if (listSeq[1].equalsIgnoreCase("overdue")) {
+                case "overdue":
                     return new ListOverdueCommand();
+                default:
+                    throw new InvalidCommandException();
                 }
+            } else {
+                throw new InvalidCommandException();
             }
-            throw new InvalidCommandException();
         }
 
         /// Exit: Bye
         if (input.equalsIgnoreCase("bye")) {
             return new ExitCommand();
         }
+
         /// Mark
         if (markRegexPattern.matcher(input.toLowerCase()).matches()) { //regex must match specific mark int, and allow mark int extra to bypass i.e mark 20 exam papers
             int taskNumber = Integer.parseInt(input.split(" ")[1]); //split string to mark and num, parse stringnum to int
@@ -121,10 +125,11 @@ public class Parser {
                 String secondHalfString = input.split("\\s+", 2)[1];
                 String[] deadlineInfo = secondHalfString.split("/by"); //single split since info desc is split by /by
                 Matcher dateTimeInfo = dateTimePattern.matcher(deadlineInfo[1].trim());
-                if (dateTimeInfo.matches()) { //make sure date formatting is correct
-                    Deadline deadlineTask = new Deadline(deadlineInfo[0].trim(), deadlineInfo[1].trim());
-                    return new DeadlineTaskCommand(deadlineTask);
+                if (!dateTimeInfo.matches()) { //make sure date formatting is correct, guard clause
+                    throw new InvalidCommandException();
                 }
+                Deadline deadlineTask = new Deadline(deadlineInfo[0].trim(), deadlineInfo[1].trim());
+                return new DeadlineTaskCommand(deadlineTask);
             } catch (ArrayIndexOutOfBoundsException e) {
                 throw new InvalidCommandException();
             }
@@ -134,17 +139,18 @@ public class Parser {
         if (input.toLowerCase().startsWith("event")) {
             try {
                 String secondHalfString = input.split("\\s+", 2)[1];
-                Matcher eventInfo = eventInfoRegexPattern.matcher(secondHalfString); //refer to eventInfoRegexPattern at top of main, need to split into 3 groups for 3 params
-                if (eventInfo.matches()) { //make sure date formats and groupings are correct
-                    Event eventTask = new Event(eventInfo.group(1).trim(), eventInfo.group(2).trim(), eventInfo.group(3).trim()); //group 0 is everything
-                    return new EventTaskCommand(eventTask);
+                Matcher eventInfo = eventInfoRegexPattern.matcher(secondHalfString); //refer to eventInfoRegexPattern
+                if (!eventInfo.matches()) { //make sure date formats and groupings are correct, guard clause
+                    throw new InvalidCommandException();
                 }
+                Event eventTask = new Event(eventInfo.group(1).trim(),
+                                            eventInfo.group(2).trim(),
+                                            eventInfo.group(3).trim());
+                return new EventTaskCommand(eventTask);
             } catch (ArrayIndexOutOfBoundsException e) {
                 throw new InvalidCommandException();
             }
-            throw new InvalidCommandException();
-        } else {
-            throw new InvalidCommandException();
         }
+        throw new InvalidCommandException();
     }
 }

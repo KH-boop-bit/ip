@@ -40,7 +40,7 @@ public class TaskList {
     }
 
     /**
-     * Lists all tasks in tasklist
+     * Lists all tasks in tasklist, default by order of insertion
      *
      * @return statement of all tasks in tasklist
      */
@@ -107,10 +107,9 @@ public class TaskList {
     public String mark(int idx) {
         if (idx > taskList.size()) {
             return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
-        } else {
-            taskList.get(idx).markAsDone();
-            return "Solid work! I've marked this task as done:\n" + taskList.get(idx).toString() + "\n";
         }
+        taskList.get(idx).markAsDone();
+        return "Solid work! I've marked this task as done:\n" + taskList.get(idx).toString() + "\n";
     }
 
     /**
@@ -122,10 +121,9 @@ public class TaskList {
     public String unmark(int idx) {
         if (idx > taskList.size()) {
             return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
-        } else {
-            taskList.get(idx).markAsUndone();
-            return "Aite bet, I've marked this task as not done yet:\n" + taskList.get(idx).toString() + "\n";
         }
+        taskList.get(idx).markAsUndone();
+        return "Aite bet, I've marked this task as not done yet:\n" + taskList.get(idx).toString() + "\n";
     }
 
     /**
@@ -151,11 +149,10 @@ public class TaskList {
     public String delete(int idx) {
         if (idx > taskList.size()) {
             return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
-        } else {
-            Task removal = taskList.get(idx);
-            taskList.remove(removal);
-            return "Sure thing, I've deleted this task:\n" + removal.toString() + "\n";
         }
+        Task removal = taskList.get(idx);
+        taskList.remove(removal);
+        return "Sure thing, I've deleted this task:\n" + removal.toString() + "\n";
     }
 
     /**
@@ -169,7 +166,7 @@ public class TaskList {
             return "Gotcha. I've added this task:\n" + task.toString() + "\n"
                             + "Now you've got " + taskList.size() + " tasks in the list." + "\n";
         } catch (Exception e) {
-            return "Invalid command, please try again!";
+            return "Unable to add task, please try again!";
         }
 
     }
