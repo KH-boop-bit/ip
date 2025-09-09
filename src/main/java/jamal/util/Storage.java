@@ -65,6 +65,7 @@ public class Storage {
      * Calls on FileWrite to mark line
      */
     public void markLine(int idx) {
+        assert idx >= 0 : "idx must be greater than or equal to 0";
         FileWrite.markLine(this.filePath, true, idx);
     }
 
@@ -72,6 +73,7 @@ public class Storage {
      * Calls on FileWrite to unmark line
      */
     public void unmarkLine(int idx) {
+        assert idx >= 0 : "idx must be greater than or equal to 0";
         FileWrite.markLine(this.filePath, false, idx);
     }
 
@@ -79,6 +81,7 @@ public class Storage {
      * Calls on FileWrite to delete line
      */
     public void deleteLine(int idx) {
+        assert idx >= 0 : "idx must be greater than or equal to 0";
         FileWrite.deleteLine(this.filePath, idx);
     }
 

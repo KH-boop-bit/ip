@@ -40,6 +40,7 @@ public class FileWrite {
         try {
             Path path = Paths.get(filePath);
             List<String> lines = Files.readAllLines(path);
+            assert idx >= 0 : "idx must be greater than or equal to 0";
             String line = lines.get(idx);
 
             String[] temp = line.split("`");
@@ -64,6 +65,7 @@ public class FileWrite {
         try {
             Path path = Paths.get(filePath);
             List<String> lines = Files.readAllLines(path);
+            assert idx >= 0 : "idx must be greater than or equal to 0";
             lines.remove(idx);
             Files.write(path, lines);
         } catch (IOException e) {
