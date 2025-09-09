@@ -32,6 +32,7 @@ public class Storage {
             dataFile.getParentFile().mkdir(); //make the data folder if does not yet exist
             try {
                 if (dataFile.createNewFile()) { //boolean, attempt to create file
+                    assert dataFile.exists() : "File not created";
                     System.out.print("Data file Created\n");
                 } else {
                     System.out.print("Unable to create data file\n");
@@ -53,6 +54,7 @@ public class Storage {
      * Calls on FileWrite to mark line
      */
     public void markLine(int idx) {
+        assert idx >= 0 : "idx must be greater than or equal to 0";
         FileWrite.markLine(this.filePath, true, idx);
     }
 
@@ -60,13 +62,15 @@ public class Storage {
      * Calls on FileWrite to unmark line
      */
     public void unmarkLine(int idx) {
-        FileWrite.markLine(this.filePath, false,idx);
+        assert idx >= 0 : "idx must be greater than or equal to 0";
+        FileWrite.markLine(this.filePath, false, idx);
     }
 
     /**
      * Calls on FileWrite to delete line
      */
     public void deleteLine(int idx) {
+        assert idx >= 0 : "idx must be greater than or equal to 0";
         FileWrite.deleteLine(this.filePath, idx);
     }
 

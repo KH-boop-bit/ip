@@ -108,8 +108,10 @@ public class TaskList {
         if (idx > taskList.size()) {
             return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
         } else {
-            taskList.get(idx).markAsDone();
-            return "Solid work! I've marked this task as done:\n" + taskList.get(idx).toString() + "\n";
+            Task taskToMark = taskList.get(idx);
+            taskToMark.markAsDone();
+            assert taskToMark.isDone : "Task is not marked";
+            return "Solid work! I've marked this task as done:\n" + taskToMark.toString() + "\n";
         }
     }
 
@@ -123,8 +125,10 @@ public class TaskList {
         if (idx > taskList.size()) {
             return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
         } else {
-            taskList.get(idx).markAsUndone();
-            return "Aite bet, I've marked this task as not done yet:\n" + taskList.get(idx).toString() + "\n";
+            Task taskToUnmark = taskList.get(idx);
+            taskToUnmark.markAsUndone();
+            assert !taskToUnmark.isDone : "Task is not unmarked";
+            return "Aite bet, I've marked this task as not done yet:\n" + taskToUnmark.toString() + "\n";
         }
     }
 
