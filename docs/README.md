@@ -57,6 +57,7 @@ Finds all tasks that contain the given keyword in their descriptions.
 **Example:**
 - `find CS2101` finds all tasks that has CS2101 in the description
 - `find hackathons` finds all tasks that has hackathons in the description
+
 ---
 
 ### Task Management 🛠️
@@ -100,8 +101,9 @@ Tags a priority level to the task at the given line number.
 **Note:**
 - tasknumber **must be positive integer** 1, 2, 3...
 - tasknumber **must fall within number of tasks**
-- priority level **must be positive integer** 1, 2, 3...
+- priority level **must be positive integer** 1, 2, 3... 
 - priority level **cannot exceed** 999
+
 ---
 
 ### Adding Tasks 📌
@@ -132,8 +134,9 @@ Adds an Event task with a specified time interval.
 - `event 24k Lazada Marathon /from 2026-01-21T08:00:00 /to 2026-01-21T20:00:00` adds a marathon event from 01 Jan 2026, 8am to 01 Jan 2026, 8pm
 
 **Note:**
-- description and datetime **must not be empty**
+- description and datetime **must not be empty**.
 - `<datetime>` must follow this format: `YYYY-MM-DDTHH:MM:SS`
+
 ---
 
 ### Exit & Help 📚
