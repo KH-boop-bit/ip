@@ -19,7 +19,7 @@ public class DateTime {
     }
 
     /**
-     * Detect if current date is before input date
+     * Detects if current date is before input date
      *
      * @param startDate LocalDateTime of date string
      * @return true if current date is before input date, false otherwise
@@ -29,7 +29,7 @@ public class DateTime {
     }
 
     /**
-     * Detect if current date is after input date
+     * Detects if current date is after input date
      *
      * @param endDate LocalDateTime of date string
      * @return true if current date is after input date, false otherwise
@@ -39,7 +39,7 @@ public class DateTime {
     }
 
     /**
-     * Detect if current date is after start date and before end date
+     * Detects if current date is after start date and before end date
      *
      * @param startDate LocalDateTime of date string for start date
      * @param endDate LocalDatetime of date string for end date
@@ -50,7 +50,7 @@ public class DateTime {
     }
 
     /**
-     * Detect if current date is before input date
+     * Detects if current date is before input date
      *
      * @param endDate LocalDateTime of date string
      * @return true if current date is before input date, false otherwise

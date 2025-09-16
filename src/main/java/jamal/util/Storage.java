@@ -41,7 +41,7 @@ public class Storage {
     }
 
     /**
-     * Create a datafile with parent directory following file path
+     * Creates a datafile with parent directory following file path
      *
      * @param dataFile
      */

@@ -22,8 +22,9 @@ public class Jamal {
     private Ui ui;
 
     /**
-     * Construct Jamal instance through filePath
+     * Constructs Jamal instance through filePath
      * Instantiate UI class for text-UI based prompts if boolean condition met
+     *
      * @param filePath datafile of tasks
      * @param isGui true if using GUI to instantiate, false to use text-UI
      */
