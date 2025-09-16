@@ -10,6 +10,7 @@ import jamal.command.DeleteCommand;
 import jamal.command.EventTaskCommand;
 import jamal.command.ExitCommand;
 import jamal.command.FindCommand;
+import jamal.command.HelpCommand;
 import jamal.command.ListCommand;
 import jamal.command.ListOngoingCommand;
 import jamal.command.ListOverdueCommand;
@@ -43,6 +44,9 @@ public class Parser {
         }
         if (input.equalsIgnoreCase("bye")) {
             return new ExitCommand();
+        }
+        if (input.equalsIgnoreCase("help")) {
+            return new HelpCommand();
         }
         if (input.toLowerCase().startsWith("mark")) {
             return parseMarkCommand(input);

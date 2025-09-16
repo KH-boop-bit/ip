@@ -27,13 +27,6 @@ public class Ui {
     }
 
     /**
-     * Prints exit statement
-     */
-    public void showExit() {
-        System.out.println(lineBreak + "Catch ya later!\n");
-    }
-
-    /**
      * Prints a single line
      */
     public void showLine() {
@@ -63,4 +56,27 @@ public class Ui {
         System.out.println(message);
     }
 
+    /**
+     * Give string of list of commands and format
+     *
+     * @return String of commands and formatting
+     */
+    public static String showHelplist() {
+        return "Here are the commands:\n"
+                + "list\n"
+                + "list ongoing\n"
+                + "list overdue\n"
+                + "list upcoming\n"
+                + "find <keyword>\n"
+                + "mark <tasknumber>\n"
+                + "unmark <tasknumber>\n"
+                + "prioritize <tasknumber> <priority>\n"
+                + "delete <tasknumber>\n"
+                + "todo <description>\n"
+                + "deadline <description> /by <datetime>\n"
+                + "    datetime format: YYYY-MM-DDTHH:MM:SS\n"
+                + "event <description> /from <datetime> /to <datetime>\n"
+                + "    datetime format: YYYY-MM-DDTHH:MM:SS\n"
+                + "bye";
+    }
 }
