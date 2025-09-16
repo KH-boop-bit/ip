@@ -70,7 +70,7 @@ public class Jamal {
             Command c = Parser.parse(input);
             return c.execute(tasks, storage);
         } catch (Exception e) {
-            return e.getMessage();
+            return e.getMessage() + " Type help to see list of commands!";
         }
     }
 
