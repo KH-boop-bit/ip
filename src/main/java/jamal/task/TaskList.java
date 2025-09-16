@@ -25,7 +25,7 @@ public class TaskList {
      * @param taskDataStrings list of string of formatted task data from Storage
      *
      */
-    public TaskList(List<String> taskDataStrings) {
+    public TaskList(List<String> taskDataStrings) { /// !!!need to specify the "magic number" part for case
         this.taskList = new ArrayList<>();
         for (String line : taskDataStrings) {
             String[] lineInfo = line.split("`");
@@ -48,7 +48,6 @@ public class TaskList {
                 throw new IllegalArgumentException("Invalid Argument");
             }
         }
-
     }
 
     /**

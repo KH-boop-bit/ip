@@ -1,6 +1,7 @@
 package jamal.command;
 
 import jamal.task.TaskList;
+import jamal.ui.Ui;
 import jamal.util.Storage;
 
 /**
@@ -17,7 +18,7 @@ public class ExitCommand extends Command {
      */
     @Override
     public String execute(TaskList taskList, Storage storage) {
-        return "Goodbye!";
+        return Ui.exitStatement;
     }
 
     /**

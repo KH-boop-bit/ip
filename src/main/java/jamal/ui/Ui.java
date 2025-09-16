@@ -9,7 +9,8 @@ import java.util.Scanner;
  */
 public class Ui {
 
-    static final String lineBreak = "____________________________________________________________\n";
+    public static final String exitStatement = "Catch ya later!\n";
+    protected static final String lineBreak = "____________________________________________________________\n";
     protected Scanner inputScanner;
 
 
@@ -46,13 +47,6 @@ public class Ui {
      */
     public String readCommand() {
         return inputScanner.nextLine();
-    }
-
-    /**
-     * Prints loading error statement
-     */
-    public void showLoadingError() {
-        System.out.println("Error loading");
     }
 
     /**

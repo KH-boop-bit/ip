@@ -23,6 +23,7 @@ public class Jamal {
 
     /**
      * Construct Jamal instance through filePath
+     * Instantiate UI class for text-UI based prompts if boolean condition met
      * @param filePath datafile of tasks
      * @param isGui true if using GUI to instantiate, false to use text-UI
      */
@@ -73,7 +74,7 @@ public class Jamal {
     }
 
     /**
-     * Runs the program
+     * Runs the program for text-based UI
      */
     public static void main(String[] args) {
         new Jamal("data/jamal.ui.Jamal.txt", false).run();

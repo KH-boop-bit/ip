@@ -19,7 +19,7 @@ public class Deadline extends Task {
      * @param by Deadline date
      * @throws DateTimeParseException if by is not of parsable date format "yyyy-mm-ddThh:mm:ss"
      */
-    public Deadline(String description, String by) throws DateTimeParseException{
+    public Deadline(String description, String by) throws DateTimeParseException {
         super(description);
         try {
             this.by = LocalDateTime.parse(by);
@@ -36,7 +36,7 @@ public class Deadline extends Task {
      * @param by Deadline date
      * @throws DateTimeParseException if by is not of parsable date format "yyyy-mm-ddThh:mm:ss"
      */
-    public Deadline(String description, int priority, String by) throws DateTimeParseException{
+    public Deadline(String description, int priority, String by) throws DateTimeParseException {
         super(description, priority);
         try {
             this.by = LocalDateTime.parse(by);

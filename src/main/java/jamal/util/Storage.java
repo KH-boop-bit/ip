@@ -48,10 +48,10 @@ public class Storage {
     public void createDataFile(File dataFile) {
         File parentDir = dataFile.getParentFile();
         if (parentDir != null) { //guard clause for no parent directory for data file
-            parentDir.mkdirs(); //make parent dir if exists in file path
+            parentDir.mkdirs(); //create the parent directories
         }
         try {
-            if (dataFile.createNewFile()) { //boolean, attempt to create file
+            if (dataFile.createNewFile()) { //attempt to create file, true if successful
                 System.out.print("Data file created\n");
             } else {
                 System.err.print("Data file already exists or cannot be created\n");
