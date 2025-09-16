@@ -3,6 +3,8 @@ package jamal.task;
 import java.util.ArrayList;
 import java.util.List;
 
+import jamal.exception.InvalidCommandException;
+
 /**
  * Tasklist contains an Arraylist of Task objects to perform command like operations on
  *
@@ -113,11 +115,13 @@ public class TaskList {
      * Marks tasks in tasklist
      * Updates task as done
      *
+     * @param idx line to mark
      * @return statement of task marked
+     * @throws InvalidCommandException Exception thrown if index is out of range of tasklist
      */
-    public String mark(int idx) {
-        if (idx > taskList.size()) {
-            return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
+    public String mark(int idx) throws InvalidCommandException {
+        if (idx >= taskList.size()) {
+            throw new InvalidCommandException("Task out of range!");
         }
         Task taskToMark = taskList.get(idx);
         taskToMark.markAsDone();
@@ -129,11 +133,13 @@ public class TaskList {
      * Unmarks tasks in tasklist
      * Updates task as not done
      *
+     * @param idx line to unmark
      * @return statement of task unmarked
+     * @throws InvalidCommandException Exception thrown if index is out of range of tasklist
      */
-    public String unmark(int idx) {
-        if (idx > taskList.size()) {
-            return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
+    public String unmark(int idx) throws InvalidCommandException {
+        if (idx >= taskList.size()) {
+            throw new InvalidCommandException("Task out of range!");
         }
         Task taskToUnmark = taskList.get(idx);
         taskToUnmark.markAsUndone();
@@ -144,13 +150,15 @@ public class TaskList {
     /**
      * Prioritizes tasks in tasklist
      * Updates task with priority number
+     *
      * @param idx line to prioritize
      * @param priority number to set for priority
      * @return statement of task prioritized
+     * @throws InvalidCommandException Exception thrown if index is out of range of tasklist
      */
-    public String prioritize(int idx, int priority) {
-        if (idx > taskList.size()) {
-            return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
+    public String prioritize(int idx, int priority) throws InvalidCommandException {
+        if (idx >= taskList.size()) {
+            throw new InvalidCommandException("Task out of range!");
         }
         Task taskToPrioritize = taskList.get(idx);
         taskToPrioritize.setPriority(priority);
@@ -161,6 +169,7 @@ public class TaskList {
     /**
      * Prints task statements from the tasklist that match the input string
      *
+     * @param match string to match task description
      * @return statement of tasks that contain the matching string in its description
      * */
     public String find(String match) {
@@ -176,11 +185,13 @@ public class TaskList {
     /**
      * Deletes events in tasklist
      *
+     * @param idx index of element to be deleted
      * @return statement of deleted task
+     * @throws InvalidCommandException Exception thrown if index is out of range of tasklist
      */
-    public String delete(int idx) {
-        if (idx > taskList.size()) {
-            return "Task out of range, you don't have that many yet... try smaller haha" + "\n";
+    public String delete(int idx) throws InvalidCommandException {
+        if (idx >= taskList.size()) {
+            throw new InvalidCommandException("Task out of range!");
         }
         Task removal = taskList.get(idx);
         taskList.remove(removal);

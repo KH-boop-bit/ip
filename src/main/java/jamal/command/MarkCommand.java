@@ -1,5 +1,6 @@
 package jamal.command;
 
+import jamal.exception.InvalidCommandException;
 import jamal.task.TaskList;
 import jamal.util.Storage;
 
@@ -21,9 +22,10 @@ public class MarkCommand extends Command {
      * @param taskList Tasklist that contains an Arraylist of tasks
      * @param storage Stores data and allow read write operations on it
      * @return String of actionable
+     * @throws InvalidCommandException Exception thrown if index is out of range of tasklist
      */
     @Override
-    public String execute(TaskList taskList, Storage storage) {
+    public String execute(TaskList taskList, Storage storage) throws InvalidCommandException {
         String result = taskList.mark(this.idx);
         storage.markLine(this.idx);
         return result;
